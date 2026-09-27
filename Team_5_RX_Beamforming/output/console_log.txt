@@ -35,7 +35,7 @@ Test RF is generated fresh by mock_data.py -> support/tissue_phantoms.simulate_r
   target z=55.0 mm -> measured peak z=55.04 mm (error 0.036 mm)
 [PASS]   depth error small at z=55.0 mm
 
-Summary: 4/4 tests passed (6 PASS checks, 0 FAIL checks)   [33.3 s]
+Summary: 4/4 tests passed (6 PASS checks, 0 FAIL checks)   [13.1 s]
 
 ==============================================================================
 STEP 2  Load the sample inputs (input/*.npz)
@@ -62,9 +62,9 @@ peak |RF| on line x=0 near 20 mm: with RX delays 0.656, without per-element dela
 ==============================================================================
 STEP 4  Beamform both inputs with das_beamform() (hann, F# = 1, 256 lines)
 ==============================================================================
-point_targets : output (3118, 256) (depths x lines), z 0..60 mm step 0.0192 mm, 2.3 s
+point_targets : output (3118, 256) (depths x lines), z 0..60 mm step 0.0192 mm, 2.1 s
                 saved output/beamformed_point_targets.npz (Team 5's output for the next stage)
-cyst          : output (3118, 256) (depths x lines), z 0..60 mm step 0.0192 mm, 2.2 s
+cyst          : output (3118, 256) (depths x lines), z 0..60 mm step 0.0192 mm, 2.1 s
                 saved output/beamformed_cyst.npz (Team 5's output for the next stage)
   saved output/04_beamformed_rf_point_targets.png
   saved output/05_display_point_targets.png
@@ -109,5 +109,5 @@ streak: brightest point right of the (-5,10) mm target (x > 1 mm, z 9.5-16 mm),
 DONE
 ==============================================================================
 Verification tests: 4/4 passed
-Total run time: 50.8 s
+Total run time: 29.4 s
 All outputs are in: output/  (9 plots + console_screenshot.png, 2 beamformed .npz, console_log.txt)

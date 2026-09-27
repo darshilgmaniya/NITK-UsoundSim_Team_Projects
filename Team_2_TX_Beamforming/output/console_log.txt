@@ -20,8 +20,8 @@ STEP 1  Team script: python run_transmit_beamforming.py
   | Elements: 128
   | Frequency MHz: 8.0
   | Delay range us: 0.0 2.7950482224488855
-  | Handoff: /private/tmp/team2_work_gty3g4uk/Usound/outputs/tx_beamforming_package.npz
-  (run_transmit_beamforming.py finished in 0.12 s)
+  | Handoff: /private/var/folders/50/33vqmx1x5yd4znrpykvksbpc0000gn/T/team2_work_bk28vq70/Usound/outputs/tx_beamforming_package.npz
+  (run_transmit_beamforming.py finished in 0.27 s)
   (the 'Handoff' path above is the temporary working copy; the files are copied to output/)
 
 ========================================================================
@@ -40,7 +40,7 @@ STEP 2  Team script: python visualize_transmit_beamforming.py
   | Maximum delay      : 2.7950 us
   | 
   | Transmit beamforming visualization completed.
-  (visualize_transmit_beamforming.py finished in 0.60 s)
+  (visualize_transmit_beamforming.py finished in 0.63 s)
 
 ========================================================================
 STEP 3  Team tests: tests/test_beamformer.py (each test_* called directly)
@@ -91,7 +91,7 @@ STEP 5  Extra figures (made by this runner with the team's functions)
   saved extra_2_apodization_windows.png
   saved extra_3_pulse.png
   saved extra_4_tx_field_map.png
-  Field map: 55064 grid points in 12.1 s (grid step x 0.1 mm, z 0.5 mm)
+  Field map: 55064 grid points in 13.8 s (grid step x 0.1 mm, z 0.5 mm)
   Field map: strongest point on the centre line at z = 40.0 mm (focus set to 40.0 mm)
   Field map: -6 dB beam width at focus depth = 0.36 mm
   Field map: energy at the focus is 16.8 dB higher than with no delays
@@ -112,4 +112,4 @@ DONE
       tx_element_pulses.npz
       console_log.txt
       console_screenshot.png
-  Total run time: 13.8 s
+  Total run time: 15.8 s

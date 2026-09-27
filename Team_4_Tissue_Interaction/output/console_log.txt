@@ -114,4 +114,4 @@ Output files:
    output/validation_plots/04_scattering_strength_map.png
    output/console_log.txt
    output/console_screenshot.png
-Total runtime: 2.4 s
+Total runtime: 2.6 s

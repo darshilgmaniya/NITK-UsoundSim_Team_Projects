@@ -22,6 +22,6 @@ test_pulse_centered_near_zero (nitk_usoundsim.test_acoustic_propagation.TestPuls
 test_pulse_sampled_at_fs (nitk_usoundsim.test_acoustic_propagation.TestPulse.test_pulse_sampled_at_fs) ... ok
 
 ----------------------------------------------------------------------
-Ran 22 tests in 0.018s
+Ran 22 tests in 0.023s
 
 OK

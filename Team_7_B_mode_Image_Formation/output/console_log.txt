@@ -124,12 +124,12 @@ carotid_2:
 Reproducibility (carotid_1): max |this run - reference| = 6.49e-06  (PASS)
 
 Timings:
-  Part 1 input overview                      0.45 s
-  Part 2.1 notebook stage, carotid_1         0.68 s
-  Part 2.2 notebook stage, carotid_2         0.67 s
-  Part 3 dynamic range comparison            0.50 s
+  Part 1 input overview                      0.52 s
+  Part 2.1 notebook stage, carotid_1         0.69 s
+  Part 2.2 notebook stage, carotid_2         0.65 s
+  Part 3 dynamic range comparison            0.47 s
   Part 4 reproducibility check               0.00 s
-  TOTAL                                      2.68 s
+  TOTAL                                      2.60 s
 
 Files written to output/:
    bmode_carotid_1.npy

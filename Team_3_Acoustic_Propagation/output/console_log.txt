@@ -31,7 +31,7 @@ Command used: python -m unittest nitk_usoundsim.test_acoustic_propagation -v
   ok    TestFullPipeline.test_round_trip_delay_for_20mm_phantom_point
   ok    TestPulse.test_pulse_centered_near_zero
   ok    TestPulse.test_pulse_sampled_at_fs
-Ran 22 tests in 0.018s
+Ran 22 tests in 0.023s
 OK
   (full unittest text saved in output/unit_tests_full_output.txt)
 
