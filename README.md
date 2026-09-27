@@ -1,5 +1,20 @@
 # NITK-UsoundSim: Individual Team Projects
 
+## 📘 Team explanation PDFs
+
+| Team | Explanation PDF |
+|---|---|
+| Team 1: Transducer | [Team_1_Transducer_Explanation.pdf](Team_1_Transducer/Team_1_Transducer_Explanation.pdf) |
+| Team 2: TX Beamforming | [Team_2_TX_Beamforming_Explanation.pdf](Team_2_TX_Beamforming/Team_2_TX_Beamforming_Explanation.pdf) |
+| Team 3: Acoustic Propagation | [Team_3_Acoustic_Propagation_Explanation.pdf](Team_3_Acoustic_Propagation/Team_3_Acoustic_Propagation_Explanation.pdf) |
+| Team 4: Tissue Interaction | [Team_4_Tissue_Interaction_Explanation.pdf](Team_4_Tissue_Interaction/Team_4_Tissue_Interaction_Explanation.pdf) |
+| Team 5: RX Beamforming | [Team_5_RX_Beamforming_Explanation.pdf](Team_5_RX_Beamforming/Team_5_RX_Beamforming_Explanation.pdf) |
+| Team 6: Image Reconstruction | [Team_6_Image_Reconstruction_Explanation.pdf](Team_6_Image_Reconstruction/Team_6_Image_Reconstruction_Explanation.pdf) |
+| Team 7: B-mode Image Formation | [Team_7_B_mode_Image_Formation_Explanation.pdf](Team_7_B_mode_Image_Formation/Team_7_B_mode_Image_Formation_Explanation.pdf) |
+| Team 8: Post-Image Processing | [Team_8_Post_Image_Processing_Explanation.pdf](Team_8_Post_Image_Processing/Team_8_Post_Image_Processing_Explanation.pdf) |
+
+Each PDF covers only that team: theory, code explanation, input, output and run steps.
+
 This folder holds one self-contained demo per team of the NITK-UsoundSim ultrasound simulator. Each team folder
 runs on its own, without the integrated pipeline project. The integrated pipeline is kept separately in the
 `NITK-UsoundSim` project (https://github.com/darshilgmaniya/NITK-UsoundSim).
