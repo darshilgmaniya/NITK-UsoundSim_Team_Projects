@@ -1,0 +1,12 @@
+{
+  "python.terminal.executeInFileDir": true,
+  "terminal.integrated.env.osx": {
+    "PYTHONPATH": "${workspaceFolder}/Team_2_TX_Beamforming/code:${workspaceFolder}/Team_3_Acoustic_Propagation/code:${workspaceFolder}/Team_4_Tissue_Interaction/code:${workspaceFolder}/Team_5_RX_Beamforming/code/support"
+  },
+  "terminal.integrated.env.linux": {
+    "PYTHONPATH": "${workspaceFolder}/Team_2_TX_Beamforming/code:${workspaceFolder}/Team_3_Acoustic_Propagation/code:${workspaceFolder}/Team_4_Tissue_Interaction/code:${workspaceFolder}/Team_5_RX_Beamforming/code/support"
+  },
+  "terminal.integrated.env.windows": {
+    "PYTHONPATH": "${workspaceFolder}\\Team_2_TX_Beamforming\\code;${workspaceFolder}\\Team_3_Acoustic_Propagation\\code;${workspaceFolder}\\Team_4_Tissue_Interaction\\code;${workspaceFolder}\\Team_5_RX_Beamforming\\code\\support"
+  }
+}

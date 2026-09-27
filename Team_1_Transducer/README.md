@@ -54,6 +54,19 @@ Output files (in `output/`):
 | `fig2_l12_4_random_frequencies.png` | Histogram of 2000 random frequencies for the L12-4 probe: they spread evenly between 4 and 12 MHz |
 | `registry_contents.csv` | Table of the materials in the registry: min, max, bandwidth, generated frequency |
 
+## Running the individual code files
+
+`run_team1.py` runs everything at once. To run the team's own files one by one:
+
+From the `code/` folder (`cd code`):
+
+| File | Command | What it does |
+|---|---|---|
+| `main.py` | `python3 main.py` | Team's own entry point: registers the piezo materials (Quartz, PZT-5H) and prints their frequencies. |
+| `registry.py`, `piezo.py`, `new_piezo.py`, `process.py`, `add_attributes.py`, `exceptions.py` | `python3 <file>` | Library files used by `main.py`; they run without error but print little on their own. |
+
+In VS Code, open this team folder or the whole `NITK-UsoundSim_Team_Projects` folder, pick a Python interpreter that has the packages from `requirements.txt` (bottom-right corner of VS Code), then open a file and press the Run button.
+
 ## Expected runtime
 
 About 1 second (measured: 1.1 s wall time on a MacBook, Python 3.12).

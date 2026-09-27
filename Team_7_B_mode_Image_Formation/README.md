@@ -24,6 +24,7 @@ The full explanation (theory, code walk-through, all results) is in
 |---|---|
 | `run_team7.py` | One script that runs this stage and saves every result in `output/` (written for this demo) |
 | `code/B_mode.ipynb` | Team notebook, real carotid data (original, unchanged). The runner executes only its B-mode part (see below) |
+| `code/carotid_1_rf.npy` | Raw carotid RF (copy of Team 6's input), only for opening `B_mode.ipynb` on its own; not used by `run_team7.py` |
 | `input/reconstructed_carotid_1.npz`, `input/reconstructed_carotid_2.npz` | The output of Team 6 (Image Reconstruction), copied here as input |
 | `input/reference/bmode_carotid_1.npy`, `..._axes.npz` | The B-mode image the team's notebook saved earlier (for the reproducibility check) |
 | `output/` | Everything produced by `run_team7.py` |
@@ -81,9 +82,7 @@ file names from it. Every `plt.show()` is replaced by "save the figure to `outpu
    - Windows: `python run_team7.py`
 6. Open the `output/` folder to see the images.
 
-Opening `B_mode.ipynb` directly in Jupyter runs the whole chain (Team 6's part too) and
-needs the raw RF files `carotid_1_rf.npy` / `carotid_2_rf.npy`, which are Team 6's input
-and are not in this folder (it also needs scipy for the Hilbert transform).
+To open `B_mode.ipynb` on its own, see "Running the individual code files" below.
 
 ## What you will see
 
@@ -120,6 +119,19 @@ Files in `output/`:
 | `dynamic_range_40_50_60dB.png` | Runner figure: both frames at 40, 50 and 60 dB (notebook formula) |
 | `reproducibility_check_60dB.png` | Runner figure: saved reference image, this run's image, and their difference |
 | `console_log.txt`, `console_screenshot_1..3.png` | Console text of the run and pictures of it |
+
+## Running the individual code files
+
+`run_team7.py` runs everything at once. To run the team's own files one by one:
+
+`code/B_mode.ipynb` can also be opened on its own with Jupyter (`python3 -m pip install jupyter scipy`, then
+`jupyter notebook`), with VS Code (Jupyter extension) or in Google Colab. Run all cells. The notebook starts from the
+raw carotid RF, so `code/carotid_1_rf.npy` is placed next to it; it runs Team 6's steps (envelope, log compression)
+and then this team's steps (dynamic range, grayscale image), and saves `bmode_carotid_1.*` next to the notebook.
+In Colab also upload `carotid_1_rf.npy` next to the notebook. `run_team7.py` does not use this RF file; it starts from
+Team 6's `.npz` handoff in `input/`.
+
+In VS Code, open this team folder or the whole `NITK-UsoundSim_Team_Projects` folder, pick a Python interpreter that has the packages from `requirements.txt` (bottom-right corner of VS Code), then open a file and press the Run button.
 
 ## Expected runtime
 

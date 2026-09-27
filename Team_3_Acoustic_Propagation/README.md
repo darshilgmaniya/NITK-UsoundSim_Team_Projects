@@ -82,6 +82,21 @@ Files in `output/`:
 | `console_log.txt` | Everything printed on the console |
 | `console_screenshot.png` | The console output as a picture |
 
+## Running the individual code files
+
+`run_team3.py` runs everything at once. To run the team's own files one by one:
+
+`nitk_usoundsim` is a Python package, so run its files from the `code/` folder (`cd code`) with `-m`:
+
+| File | Command | What it does |
+|---|---|---|
+| `nitk_usoundsim/demo_acoustic_propagation.py` | `python3 -m nitk_usoundsim.demo_acoustic_propagation` | Team's own demo: saves the two demo figures and the part1/part2 `.npz` files in `code/nitk_usoundsim/`. |
+| `nitk_usoundsim/test_acoustic_propagation.py` | `python3 -m unittest nitk_usoundsim.test_acoustic_propagation -v` | The 22 unit tests. |
+| `nitk_usoundsim/check_arr.py` | `python3 nitk_usoundsim/check_arr.py` | Prints the arrays saved in `part2_return_propagation_outputs.npz`. It opens that file by the path `nitk_usoundsim/...`, so it must be started from `code/` (the VS Code Run button starts it from the wrong folder). |
+| `nitk_usoundsim/acoustic_propagation.py`, `nitk_usoundsim/config.py` | `python3 -m nitk_usoundsim.acoustic_propagation` | Library modules used by the demo and the tests. |
+
+In VS Code, open this team folder (File > Open Folder) or the whole `NITK-UsoundSim_Team_Projects` folder, pick a Python interpreter that has the packages from `requirements.txt` (bottom-right corner of VS Code), then open a file and press the Run button. The `.vscode/settings.json` file sets the import paths, so the files below run as they are.
+
 ## Expected runtime
 
 About **2 to 5 seconds** in total on a MacBook (the script itself reports about 1.5 to 2 s).

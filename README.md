@@ -32,3 +32,15 @@ python3 run_team6.py
 
 On Windows use `python` instead of `python3`. Results are saved in that team's `output/` folder. Each team's
 `README.md` has the full steps, expected output and troubleshooting.
+
+## Running the individual code files
+
+Each team's `README.md` has a section "Running the individual code files" with the exact command for every file in
+its `code/` folder (package files, unit tests, notebooks). A few files are library modules that other files import;
+the README says how to check those.
+
+**VS Code:** open this folder (or one team folder) with File > Open Folder. The `.vscode/settings.json` files set the
+import paths, so most files run with the Run button. Pick a Python interpreter that has the packages installed
+(bottom-right corner of VS Code, or Ctrl/Cmd+Shift+P > "Python: Select Interpreter"). If VS Code picks a Python
+without numpy, every file stops with `ModuleNotFoundError: No module named 'numpy'`; then install the team's
+`requirements.txt` for that interpreter or pick another one.

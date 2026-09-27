@@ -74,6 +74,17 @@ Files in `output/`:
 | `console_log.txt` | Everything printed on the screen. |
 | `console_screenshot.png` | The same console output as a picture. |
 
+## Running the individual code files
+
+`run_team8.py` runs everything at once. To run the team's own files one by one:
+
+| File | How to run | What it does |
+|---|---|---|
+| `code/post_processing.py` | not run on its own | Library module (`postprocess()`, `guided()`, the metrics). It has no main block and does `import config` for `scan_convert()`, which belongs to the B-mode stage, so on its own it stops with `No module named 'config'`. `run_team8.py` is the way to run it. |
+| `code/262SP009_Post_Image_Processing_v2.ipynb` | Google Colab | Study notebook (needs internet, see above). |
+
+In VS Code, open this team folder or the whole `NITK-UsoundSim_Team_Projects` folder, pick a Python interpreter that has the packages from `requirements.txt` (bottom-right corner of VS Code), then open a file and press the Run button.
+
 ## Expected runtime
 
 About 3-8 seconds in total on a MacBook (this run: 2.9 s reported by the script). The filter itself takes only a few

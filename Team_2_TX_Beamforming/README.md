@@ -111,6 +111,22 @@ Output files in `output/`:
 | `console_log.txt` | runner | Everything printed on the screen. |
 | `console_screenshot.png` | runner | Picture of the console output. |
 
+## Running the individual code files
+
+`run_team2.py` runs everything at once. To run the team's own files one by one:
+
+From the `code/` folder (`cd code`):
+
+| File | Command | What it does |
+|---|---|---|
+| `run_transmit_beamforming.py` | `python3 run_transmit_beamforming.py` | Team's own run: builds the transmit package in `code/outputs/`. |
+| `visualize_transmit_beamforming.py` | `python3 visualize_transmit_beamforming.py` | Team's plots of the transmit delays and weights from `code/outputs/` (opens plot windows). |
+| `tests/test_beamformer.py` | `python3 -m pytest tests` | Unit tests (2 tests). Needs `pytest` (in `requirements.txt`). Running the file with plain `python3` only imports it and runs no test. |
+| `src/beamformer.py` | not run on its own | Library module with a relative import (`from .transducer_interface import ...`); it is used by the files above. To check it imports: `python3 -c "import src.beamformer"`. |
+| `src/transducer_interface.py`, `src/acoustic_handoff.py` | `python3 src/<file>` | Library modules used by the files above. |
+
+In VS Code, open this team folder (File > Open Folder) or the whole `NITK-UsoundSim_Team_Projects` folder, pick a Python interpreter that has the packages from `requirements.txt` (bottom-right corner of VS Code), then open a file and press the Run button. The `.vscode/settings.json` file sets the import paths, so the files below run as they are.
+
 ## Expected runtime
 
 About **20 seconds** on a laptop (measured 18.8 s to 21.8 s on a shared 8-core Mac).

@@ -84,6 +84,20 @@ Output files (in `output/`):
 | `console_log.txt` | Full text of the console output |
 | `console_screenshot.png` | Picture of the console output |
 
+## Running the individual code files
+
+`run_team4.py` runs everything at once. To run the team's own files one by one:
+
+From the `code/` folder (`cd code`):
+
+| File | Command | What it does |
+|---|---|---|
+| `validate_phantom.py` | `python3 validate_phantom.py` | Team's own check: makes the phantom and saves the validation plots. |
+| `tests/test_tissue_interaction.py` | `python3 -m pytest tests` | The 13 unit tests. Needs `pytest` (in `requirements.txt`). Running the file with plain `python3` only imports it and runs no test. |
+| `tissue_interaction.py`, `phantom.py` | `python3 <file>` | Library modules used by the files above. |
+
+In VS Code, open this team folder (File > Open Folder) or the whole `NITK-UsoundSim_Team_Projects` folder, pick a Python interpreter that has the packages from `requirements.txt` (bottom-right corner of VS Code), then open a file and press the Run button. The `.vscode/settings.json` file sets the import paths, so the files below run as they are.
+
 ## Expected runtime
 
 About 3 to 7 seconds on a laptop (measured: 2.6 to 4.2 s inside the script,

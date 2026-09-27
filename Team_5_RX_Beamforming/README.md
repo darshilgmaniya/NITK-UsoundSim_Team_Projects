@@ -79,6 +79,22 @@ Output files in `output/`:
 | `console_log.txt` | everything printed in the console |
 | `console_screenshot.png` | the console output as a picture |
 
+## Running the individual code files
+
+`run_team5.py` runs everything at once. To run the team's own files one by one:
+
+From the `code/` folder (`cd code`):
+
+| File | Command | What it does |
+|---|---|---|
+| `verify_beamformer.py` | `python3 verify_beamformer.py` | Team's own test file (4 checks of the delay-and-sum beamformer). |
+| `receive_beamforming.py` | `python3 receive_beamforming.py` | Library: the delay-and-sum beamformer used by the files above. |
+| `mock_data.py` | `python3 mock_data.py` | Library: makes test RF data through `support/`. |
+| `support/tissue_phantoms.py` | not run on its own | Copied project module; it needs this folder's `config.py`, which `verify_beamformer.py` loads first. Check it with `python3 -c "import config, tissue_phantoms"` (from `code/`, with `support` on the path: `PYTHONPATH=support`). |
+| other `support/` files | `python3 support/<file>` | Unchanged copies of Team 3 / Team 4 code, used to make the test RF. |
+
+In VS Code, open this team folder (File > Open Folder) or the whole `NITK-UsoundSim_Team_Projects` folder, pick a Python interpreter that has the packages from `requirements.txt` (bottom-right corner of VS Code), then open a file and press the Run button. The `.vscode/settings.json` file sets the import paths, so the files below run as they are.
+
 ## Expected runtime
 
 About 30 to 40 seconds on a normal computer (measured 31.8 s and 36.2 s); up to about 1 minute when the

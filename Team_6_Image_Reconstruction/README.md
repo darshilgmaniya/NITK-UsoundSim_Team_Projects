@@ -24,6 +24,7 @@ Full explanation (theory, code walk-through, input, output, run steps, viva ques
 | `requirements.txt` | Python packages needed. | added for this demo |
 | `code/B_mode.ipynb` | Carotid notebook (9 code cells). Its steps 1-4 (cells 1-4 and the first half of cell 5) are this stage's job; the rest is Team 7's. | team original, byte-identical copy of `teams/T6_B_mode/B_mode_real_carotid_final/B_mode.ipynb` |
 | `code/image_reconstruction.ipynb` | Second notebook: simulated 5 MHz RF -> DC removal -> band-pass -> Hilbert envelope -> scan conversion. | team original, unchanged (renamed copy of `UsoundIMGRECsample (2).ipynb`) |
+| `code/carotid_1_rf.npy` | Copy of `input/carotid_1_rf.npy`, placed next to `B_mode.ipynb` because the notebook loads it by bare file name. | copy |
 | `input/carotid_1_rf.npy`, `input/carotid_2_rf.npy` | Real in-vivo beamformed carotid RF, 1218 depth samples x 128 scan lines, float32. | team data (EPFL LTS5 us-non-stationary-deconv, L12-50 probe, 5 MHz, fs 31.25 MHz) |
 | `output/` | Everything written by `run_team6.py` (see below). | made by `run_team6.py` |
 
@@ -75,9 +76,7 @@ This run: `envelope_db` goes from -90.65 to 0 dB (carotid_1) and from -86.10 to 
    - Windows: `python run_team6.py`
 5. Open the `output/` folder to see the pictures, the handoff files and the console log.
 
-To open the notebooks yourself: `python3 -m pip install jupyter`, then `jupyter notebook`. `B_mode.ipynb` loads the
-bare file name `carotid_1_rf.npy`, so put that file next to the notebook; for this stage run cells 1-5 up to
-section 4. Or upload the notebook (and the .npy file) to https://colab.research.google.com.
+To open the notebooks yourself, see "Running the individual code files" below.
 
 ## What you will see
 
@@ -106,6 +105,22 @@ Files in `output/`:
 | `console_log.txt`, `console_screenshot.png` | Everything printed on the screen, as text and as a picture. |
 
 (N = 1 and 2.) The dynamic-range clipping and the grayscale B-mode image are made by Team 7 from the handoff files.
+
+## Running the individual code files
+
+`run_team6.py` runs everything at once. To run the team's own files one by one:
+
+The two notebooks are in `code/`. Open them with Jupyter (`python3 -m pip install jupyter`, then `jupyter notebook`),
+with VS Code (Jupyter extension) or in Google Colab, and run all cells.
+
+| File | What it needs | What it does |
+|---|---|---|
+| `code/B_mode.ipynb` | `code/carotid_1_rf.npy` (already next to the notebook) | Whole carotid chain; cells 1-4 and the first half of cell 5 are this team's stage. Saves `bmode_carotid_1.*` next to the notebook. |
+| `code/image_reconstruction.ipynb` | nothing | Simulated 5 MHz RF -> band-pass -> Hilbert envelope -> scan-converted image. |
+
+In Colab also upload `carotid_1_rf.npy` next to `B_mode.ipynb`.
+
+In VS Code, open this team folder or the whole `NITK-UsoundSim_Team_Projects` folder, pick a Python interpreter that has the packages from `requirements.txt` (bottom-right corner of VS Code), then open a file and press the Run button.
 
 ## Expected runtime
 
