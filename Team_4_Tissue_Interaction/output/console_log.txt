@@ -1,0 +1,117 @@
+
+==============================================================================
+NITK-UsoundSim  |  Team 4: Tissue Interaction  |  demo run
+==============================================================================
+Python 3.12.4  numpy 1.26.4  matplotlib 3.8.3
+Running in folder: /Users/darshil/Downloads/NITK-UsoundSim_Team_Projects/Team_4_Tissue_Interaction
+Team code: code/    Sample inputs: input/    Results: output/
+
+==============================================================================
+STEP 1: run the team's validate_phantom.py (original script, unchanged)
+==============================================================================
+[validate_phantom.py says]
+   Generated 300 scatterers
+   Lesion-region scatterers: 28
+   Plots written to: /Users/darshil/Downloads/NITK-UsoundSim_Team_Projects/Team_4_Tissue_Interaction/output/validation_plots
+Plots made by validate_phantom.py (4):
+   output/validation_plots/01_phantom_geometry.png
+   output/validation_plots/02_scatterer_amplitudes.png
+   output/validation_plots/03_waveform.png
+   output/validation_plots/04_scattering_strength_map.png
+
+==============================================================================
+STEP 2: run the team's unit tests (code/tests/test_tissue_interaction.py)
+==============================================================================
+pytest is not installed -> using a tiny built-in stand-in for 'pytest.raises'.
+  [ 1] PASS  test_equal_impedance_has_zero_interface_reflection
+  [ 2] PASS  test_reflection_coefficient_matches_normal_incidence_formula
+  [ 3] PASS  test_existing_amp_only_phantom_remains_compatible
+  [ 4] PASS  test_output_shape_is_preserved
+  [ 5] PASS  test_impedance_contrast_can_modify_scattering_gain
+  [ 6] PASS  test_empty_phantom_has_no_scatterers
+  [ 7] PASS  test_single_scatterer_has_predictable_echo
+  [ 8] PASS  test_multiple_scatterers_can_be_composited_linearly
+  [ 9] PASS  test_same_seed_gives_identical_phantom
+  [10] PASS  test_different_seed_gives_different_phantom
+  [11] PASS  test_lesion_changes_local_scattering_statistics
+  [12] PASS  test_shape_units_and_finiteness
+  [13] PASS  test_invalid_waveform_is_rejected
+Result: 13/13 tests passed
+
+==============================================================================
+STEP 3: demo - one 8 MHz incident pulse through tissue_interaction()
+==============================================================================
+Incident pulse: Gaussian-modulated sine, f0 = 8 MHz, fs = 100 MHz, 200 samples (2.0 us), envelope sigma = 0.15 us
+  peak |p_incident| = 0.9783   saved to input/incident_pulse_8MHz.csv
+Scatterer cases (saved to input/demo_scatterers.json):
+  case                                           gain G  peak |p_out|  same shape?
+  A  amp = 1.0 (plain scatterer)                 1.0000        0.9783         True
+  B  amp = 0.5 (weaker scatterer)                0.5000        0.4891         True
+  C  amp = -0.8 (negative amp -> flipped)       -0.8000        0.7826         True
+  D  amp = 1.0, Z = 1.38 (fat-like)              1.0831        1.0595         True
+  E  amp = 1.0, Z = 7.8 (bone-like)              1.6543        1.6183         True
+  F  amp = 1.0, scale = 0.35 (hypoechoic)        0.3500        0.3424         True
+  G  amp = 1.0, scale = 1.8 (hyperechoic)        1.8000        1.7609         True
+  H  amp = 1.0, scale = 0.0 (anechoic)           0.0000        0.0000         True
+  (G = amp * (1 + |R|) * interaction_scale; output = G * incident, no time shift)
+
+Pressure reflection coefficient R = (Z2 - Z1)/(Z2 + Z1), Z1 = soft tissue 1.63 MRayl
+(the Z2 values below are example textbook-style values chosen as inputs for this demo)
+  Z2 material           Z2 [MRayl]         R  R^2 (energy)   1+|R|  sign
+  fat                       1.3800   -0.0831        0.0069  1.0831  inverted (-)
+  water                     1.4800   -0.0482        0.0023  1.0482  inverted (-)
+  blood                     1.6100   -0.0062        0.0000  1.0062  inverted (-)
+  soft tissue (same)        1.6300    0.0000        0.0000  1.0000  none
+  muscle                    1.7000    0.0210        0.0004  1.0210  same (+)
+  bone                      7.8000    0.6543        0.4281  1.6543  same (+)
+  air                       0.0004   -0.9995        0.9990  1.9995  inverted (-)
+
+==============================================================================
+STEP 4: liver phantoms with generate_liver_phantom() - background + 4 lesion types
+==============================================================================
+Phantom configs saved to input/phantom_configs.json
+Region x = -25..25 mm, z = 10..60 mm, area = 25.0 cm^2, density = 120,000 per m^2, seed = 2026
+Expected N = round(density * area) = 300
+Lesion: ellipse centre (0, 35) mm, radii 7 x 8 mm
+  phantom                          N in lesion  scale  std(bg) std(lesion)  ratio
+  background (no lesion)         300         -      -    0.986           -      -
+  hypoechoic lesion              300        28   0.35    0.976       0.377   0.39
+  isoechoic lesion               300        28   1.00    0.976       1.076   1.10
+  hyperechoic lesion             300        28   1.80    0.976       1.937   1.98
+  anechoic cyst (scale 0.0)      300        28   0.00    0.976       0.000   0.00
+Same seed -> the SAME positions in all 5 phantoms; only amplitudes inside the lesion change.
+Scatterer lists saved as output/phantom_<type>_scatterers.csv
+
+==============================================================================
+STEP 5: 1-D speckle illustration (many tiny scatterers -> interference)
+==============================================================================
+Note: the time delays below are added by this demo only; in the full simulator
+delays are Team 3's job (propagation). Team 4's function only scales each echo.
+80 scatterers placed at random depths 1.5-7.5 mm, Gaussian amplitudes, wavelength = 0.192 mm
+About 2.6 scatterers per wavelength -> echoes overlap and interfere
+Envelope (2-10 us): mean = 1.000, std/mean = 0.614 (random bright/dark pattern = speckle)
+
+==============================================================================
+SUMMARY
+==============================================================================
+validate_phantom.py : OK (4 plots)
+Unit tests          : 13/13 passed
+Output files:
+   output/demo_00_incident_pulse.png
+   output/demo_01_incident_vs_reflected.png
+   output/demo_02_reflection_coefficients.png
+   output/demo_03_phantoms_scatterers.png
+   output/demo_04_amplitude_histograms.png
+   output/demo_05_speckle_1d.png
+   output/phantom_anechoic_scatterers.csv
+   output/phantom_background_scatterers.csv
+   output/phantom_hyperechoic_scatterers.csv
+   output/phantom_hypoechoic_scatterers.csv
+   output/phantom_isoechoic_scatterers.csv
+   output/validation_plots/01_phantom_geometry.png
+   output/validation_plots/02_scatterer_amplitudes.png
+   output/validation_plots/03_waveform.png
+   output/validation_plots/04_scattering_strength_map.png
+   output/console_log.txt
+   output/console_screenshot.png
+Total runtime: 2.4 s

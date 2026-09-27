@@ -1,0 +1,6 @@
+# Team 6 demo (run_team6.py): Python 3.9 or newer
+numpy>=1.21
+scipy>=1.7
+matplotlib>=3.5
+# Only for opening the notebook yourself (not needed by run_team6.py):
+# jupyter

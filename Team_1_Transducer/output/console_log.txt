@@ -1,0 +1,92 @@
+NITK-UsoundSim  |  Team 1: Transducer (piezoelectric material registry)
+Team code folder : code/   (original files, not modified)
+Input file       : input/team1_inputs.json
+Random seed      : 42  (set by run_team1.py so results repeat)
+Frequency unit   : kHz  (1 MHz = 1000 kHz), same as the team's main.py
+
+========================================================================
+DEMO 1: the team's own main.py (run exactly as written)
+========================================================================
+--- 1. Registering Materials ---
+Quartz generated frequency : 355.77 kHz
+PZT-5H generated frequency: 1100.04 kHz
+Registered materials       : ['Quartz', 'PZT-5H']
+
+--- 2. Retrieving Existing Material ---
+Retrieved Quartz frequency : 210.01 kHz
+
+--- 3. Testing Exception Handling ---
+Lookup failure caught    : "Material 'UnknownMat' was not found in the registry."
+
+Registry after Demo 1:
+  Quartz         100.0 to     500.0 kHz
+  PZT-5H        1000.0 to    5000.0 kHz
+  BadRange       500.0 to    1000.0 kHz
+Note: main.py's 'BadRange' test uses (500, 1000), which is a VALID range,
+      so no validation error is raised there and 'BadRange' is registered.
+      Demo 3 below shows the validation errors with really invalid ranges.
+
+(Check) registry.clear(), seed reset, Quartz and PZT-5H registered again:
+        Quartz 355.77 kHz and PZT-5H 1100.04 kHz, the same as above, so the run is repeatable.
+
+========================================================================
+DEMO 2: the project probe (Philips L12-4 reference model)
+========================================================================
+Probe            : Philips L12-4 reference model
+Material         : PZT-5H
+Elements         : 128  (element positions are made elsewhere, by Team 3's code)
+Operating range  : 4 to 12 MHz = 4000 to 12000 kHz
+
+process_material('L12-4 PZT-5H', (4000, 12000), create_new=True)
+  -> random frequency inside the range: 6200.23 kHz = 6.200 MHz
+registry.get_material('l12-4 pzt-5h') -> Piezo(name='L12-4 PZT-5H', freq_range=(4000.0, 12000.0))
+  bandwidth = max - min = 8000 kHz, middle of range = 8000 kHz (project centre frequency 8000 kHz)
+  fractional bandwidth = bandwidth / middle = 100 %
+
+2000 more calls with create_new=False (look up only):
+  smallest = 4003.25 kHz, largest = 11999.26 kHz, average = 8046.37 kHz
+  values inside 4000..12000 kHz: 2000 of 2000
+Registered materials now: ['Quartz', 'PZT-5H', 'L12-4 PZT-5H']
+
+========================================================================
+DEMO 3: validation errors (wrong inputs)
+========================================================================
+3a) Making a Piezo object directly with a bad range:
+  Swapped      (12000.0, 4000.0)
+      problem : minimum is larger than maximum
+      caught  : PiezoValidationError: Minimum frequency (12000.0) cannot exceed maximum frequency (4000.0).
+  Negative     (-500.0, 4000.0)
+      problem : negative frequency
+      caught  : PiezoValidationError: Frequencies must be non-negative. Got: (-500.0, 4000.0)
+  Text         ('four MHz', 12000.0)
+      problem : value is not a number
+      caught  : PiezoValidationError: Frequency values must be numeric. Details: could not convert string to float: 'four MHz'
+  ThreeValues  (4000.0, 8000.0, 12000.0)
+      problem : three values instead of two
+      caught  : PiezoValidationError: freq_range must be a tuple or list of 2 numbers (min_freq, max_freq).
+  NotATuple    8000.0
+      problem : a single number instead of a (min, max) pair
+      caught  : PiezoValidationError: freq_range must be a tuple or list of 2 numbers (min_freq, max_freq).
+
+3b) The same kind of bad input through process_material():
+  caught PiezoValidationError: Minimum frequency (12000.0) cannot exceed maximum frequency (4000.0).
+  but 'Swapped' is still in the registry with freq_range=(0.0, 0.0)
+  (newPiezoMaterial() adds it with (0.0, 0.0) BEFORE the range is checked)
+
+3c) Looking up a material that was never registered:
+  caught PiezoNotFoundError: "Material 'PZT-8' was not found in the registry."
+
+3d) Exception family (from exceptions.py):
+  PiezoValidationError is a PiezoError: True, is a ValueError: True
+  PiezoNotFoundError   is a PiezoError: True, is a KeyError  : True
+
+========================================================================
+SAVING OUTPUTS
+========================================================================
+saved output/registry_contents.csv
+saved output/fig1_material_frequency_ranges.png
+saved output/fig2_l12_4_random_frequencies.png
+saved output/console_log.txt
+saved output/console_screenshot.png
+
+Done in 0.3 s. All outputs are in the output/ folder.

@@ -1,0 +1,107 @@
+{
+  "note": "PhantomConfig values passed to generate_liver_phantom() in Step 4 (SI units, metres).",
+  "phantoms": [
+    {
+      "name": "background (no lesion)",
+      "config": {
+        "x_min_m": -0.025,
+        "x_max_m": 0.025,
+        "z_min_m": 0.01,
+        "z_max_m": 0.06,
+        "scatterer_density_m2": 120000.0,
+        "background_impedance_mrayl": 1.63,
+        "background_scatter_std": 1.0,
+        "seed": 2026,
+        "lesion": null
+      }
+    },
+    {
+      "name": "hypoechoic lesion",
+      "config": {
+        "x_min_m": -0.025,
+        "x_max_m": 0.025,
+        "z_min_m": 0.01,
+        "z_max_m": 0.06,
+        "scatterer_density_m2": 120000.0,
+        "background_impedance_mrayl": 1.63,
+        "background_scatter_std": 1.0,
+        "seed": 2026,
+        "lesion": {
+          "center_x_m": 0.0,
+          "center_z_m": 0.035,
+          "radius_x_m": 0.007,
+          "radius_z_m": 0.008,
+          "echo_class": "hypoechoic",
+          "scattering_scale": null,
+          "impedance_mrayl": null
+        }
+      }
+    },
+    {
+      "name": "isoechoic lesion",
+      "config": {
+        "x_min_m": -0.025,
+        "x_max_m": 0.025,
+        "z_min_m": 0.01,
+        "z_max_m": 0.06,
+        "scatterer_density_m2": 120000.0,
+        "background_impedance_mrayl": 1.63,
+        "background_scatter_std": 1.0,
+        "seed": 2026,
+        "lesion": {
+          "center_x_m": 0.0,
+          "center_z_m": 0.035,
+          "radius_x_m": 0.007,
+          "radius_z_m": 0.008,
+          "echo_class": "isoechoic",
+          "scattering_scale": null,
+          "impedance_mrayl": null
+        }
+      }
+    },
+    {
+      "name": "hyperechoic lesion",
+      "config": {
+        "x_min_m": -0.025,
+        "x_max_m": 0.025,
+        "z_min_m": 0.01,
+        "z_max_m": 0.06,
+        "scatterer_density_m2": 120000.0,
+        "background_impedance_mrayl": 1.63,
+        "background_scatter_std": 1.0,
+        "seed": 2026,
+        "lesion": {
+          "center_x_m": 0.0,
+          "center_z_m": 0.035,
+          "radius_x_m": 0.007,
+          "radius_z_m": 0.008,
+          "echo_class": "hyperechoic",
+          "scattering_scale": null,
+          "impedance_mrayl": null
+        }
+      }
+    },
+    {
+      "name": "anechoic cyst (scale 0.0)",
+      "config": {
+        "x_min_m": -0.025,
+        "x_max_m": 0.025,
+        "z_min_m": 0.01,
+        "z_max_m": 0.06,
+        "scatterer_density_m2": 120000.0,
+        "background_impedance_mrayl": 1.63,
+        "background_scatter_std": 1.0,
+        "seed": 2026,
+        "lesion": {
+          "center_x_m": 0.0,
+          "center_z_m": 0.035,
+          "radius_x_m": 0.007,
+          "radius_z_m": 0.008,
+          "echo_class": "hypoechoic",
+          "scattering_scale": 0.0,
+          "impedance_mrayl": null
+        }
+      }
+    }
+  ]
+}

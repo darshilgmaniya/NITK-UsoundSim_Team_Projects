@@ -1,0 +1,4 @@
+material,min_freq_khz,max_freq_khz,bandwidth_khz,generated_freq_khz
+Quartz,100.0,500.0,400.0,355.77
+PZT-5H,1000.0,5000.0,4000.0,1100.04
+L12-4 PZT-5H,4000.0,12000.0,8000.0,6200.23

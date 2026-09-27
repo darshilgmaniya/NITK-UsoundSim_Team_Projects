@@ -1,0 +1,60 @@
+{
+  "note": "Scatterer dictionaries passed to tissue_interaction() in Step 3. Impedances are example textbook-style values chosen for the demo.",
+  "cases": [
+    {
+      "label": "A  amp = 1.0 (plain scatterer)",
+      "scatterer": {
+        "amp": 1.0
+      }
+    },
+    {
+      "label": "B  amp = 0.5 (weaker scatterer)",
+      "scatterer": {
+        "amp": 0.5
+      }
+    },
+    {
+      "label": "C  amp = -0.8 (negative amp -> flipped)",
+      "scatterer": {
+        "amp": -0.8
+      }
+    },
+    {
+      "label": "D  amp = 1.0, Z = 1.38 (fat-like)",
+      "scatterer": {
+        "amp": 1.0,
+        "background_impedance_mrayl": 1.63,
+        "impedance_mrayl": 1.38
+      }
+    },
+    {
+      "label": "E  amp = 1.0, Z = 7.8 (bone-like)",
+      "scatterer": {
+        "amp": 1.0,
+        "background_impedance_mrayl": 1.63,
+        "impedance_mrayl": 7.8
+      }
+    },
+    {
+      "label": "F  amp = 1.0, scale = 0.35 (hypoechoic)",
+      "scatterer": {
+        "amp": 1.0,
+        "interaction_scale": 0.35
+      }
+    },
+    {
+      "label": "G  amp = 1.0, scale = 1.8 (hyperechoic)",
+      "scatterer": {
+        "amp": 1.0,
+        "interaction_scale": 1.8
+      }
+    },
+    {
+      "label": "H  amp = 1.0, scale = 0.0 (anechoic)",
+      "scatterer": {
+        "amp": 1.0,
+        "interaction_scale": 0.0
+      }
+    }
+  ]
+}

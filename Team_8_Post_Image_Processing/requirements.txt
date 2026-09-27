@@ -1,0 +1,9 @@
+# Team 8 demo (run_team8.py): Python 3.9 or newer
+numpy>=1.21
+scipy>=1.7
+matplotlib>=3.5
+opencv-python>=4.5
+# Only for opening the notebooks yourself (not needed by run_team8.py):
+# jupyter
+# The full study notebook (262SP009_Post_Image_Processing_v2.ipynb) also installs
+# kagglehub, bm3d, scikit-image and requests; run it in Google Colab (see README).

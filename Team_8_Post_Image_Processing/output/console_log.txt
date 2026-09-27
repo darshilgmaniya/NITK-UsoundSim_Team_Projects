@@ -1,0 +1,52 @@
+
+==============================================================================
+TEAM 8: POST-IMAGE PROCESSING  (NITK-UsoundSim)
+==============================================================================
+Python 3.12.4, numpy 1.26.4, matplotlib 3.8.3
+Folder: Team_8_Post_Image_Processing
+
+==============================================================================
+Post-Image Processing  (code/post_processing.py)
+==============================================================================
+Note: project config.py not in this folder -> empty placeholder used
+      (only scan_convert() needs it, and scan_convert() is not used in this demo).
+Filter: postprocess(image) with its defaults -> method='guided', r=4, eps=0.001, gamma=1.0
+
+cyst_lesion : input (512, 256), range 0.000-0.998  ->  output range 0.004-0.984, time 5.3 ms
+scatterers  : input (512, 256), range 0.000-0.998  ->  output range 0.012-0.984, time 1.8 ms
+
+Cyst lesion mask: circle r = 6 mm at (0, 30) mm -> 18418 px; background ring (10 px wide) -> 5162 px
+
+Quality metrics (computed on uint8 images with the module's own functions):
+image        metric                                before     after     change
+------------------------------------------------------------------------------
+scatterers   speckle index SI (lower = smoother)     0.178     0.163      -8.3%
+cyst_lesion  speckle index SI (lower = smoother)     0.308     0.241     -21.7%
+cyst_lesion  contrast lesion-ring (dB, 50 dB DR)   -19.404   -19.317     +0.087
+cyst_lesion  CNR (higher = better)                  2.323     2.425     +0.102
+cyst_lesion  gCNR (0..1, higher = better)           0.860     0.871     +0.010
+cyst_lesion  edge sharpness (Sobel, grey/px)      145.728   140.534     -5.194
+cyst_lesion  edge sharpness kept                              96.4%
+
+Effect of eps (r = 4) on the cyst image:
+     eps       SI     gCNR      CNR  edge kept
+   0.001    0.241    0.871    2.425      96.4%
+   0.002    0.211    0.881    2.500      93.5%
+   0.005    0.165    0.898    2.653      86.1%
+   0.010    0.129    0.911    2.799      77.8%
+
+Saving figures:
+  saved output/B1_before_after.png
+  saved output/B2_cyst_edge_zoom.png
+  saved output/B3_difference_map.png
+  saved output/B4_brightness_profile.png
+  saved output/B5_histograms.png
+  saved output/B6_eps_comparison.png
+  saved output/B_postprocessed_images.npz
+
+==============================================================================
+SUMMARY
+==============================================================================
+Cyst image: SI 0.308 -> 0.241, gCNR 0.860 -> 0.871, edge kept 96 %
+Files written to output/: 9 (including console_log.txt and console_screenshot.png)
+Total run time: 2.3 s

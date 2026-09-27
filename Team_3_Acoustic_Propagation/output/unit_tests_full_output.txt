@@ -1,0 +1,27 @@
+test_array_centred_on_zero (nitk_usoundsim.test_acoustic_propagation.TestArrayGeometry.test_array_centred_on_zero) ... ok
+test_element_count (nitk_usoundsim.test_acoustic_propagation.TestArrayGeometry.test_element_count) ... ok
+test_element_spacing_equals_pitch (nitk_usoundsim.test_acoustic_propagation.TestArrayGeometry.test_element_spacing_equals_pitch) ... ok
+test_wavelength_and_pitch_relationship (nitk_usoundsim.test_acoustic_propagation.TestArrayGeometry.test_wavelength_and_pitch_relationship) ... ok
+test_attenuation_at_20mm_is_5dB (nitk_usoundsim.test_acoustic_propagation.TestAttenuation.test_attenuation_at_20mm_is_5dB) ... ok
+test_attenuation_is_bounded_between_0_and_1 (nitk_usoundsim.test_acoustic_propagation.TestAttenuation.test_attenuation_is_bounded_between_0_and_1) ... ok
+test_attenuation_matches_manual_db_formula (nitk_usoundsim.test_acoustic_propagation.TestAttenuation.test_attenuation_matches_manual_db_formula) ... ok
+test_deeper_targets_experience_more_attenuation (nitk_usoundsim.test_acoustic_propagation.TestAttenuation.test_deeper_targets_experience_more_attenuation) ... ok
+test_deeper_targets_have_larger_tx_delay (nitk_usoundsim.test_acoustic_propagation.TestDistancesAndDelays.test_deeper_targets_have_larger_tx_delay) ... ok
+test_offaxis_target_gives_varying_rx_delays_across_elements (nitk_usoundsim.test_acoustic_propagation.TestDistancesAndDelays.test_offaxis_target_gives_varying_rx_delays_across_elements) ... ok
+test_rx_distance_matches_manual_formula (nitk_usoundsim.test_acoustic_propagation.TestDistancesAndDelays.test_rx_distance_matches_manual_formula) ... ok
+test_rx_propagation_delay (nitk_usoundsim.test_acoustic_propagation.TestDistancesAndDelays.test_rx_propagation_delay) ... ok
+test_tx_distance_matches_manual_formula (nitk_usoundsim.test_acoustic_propagation.TestDistancesAndDelays.test_tx_distance_matches_manual_formula) ... ok
+test_tx_distance_on_axis_center_equals_depth (nitk_usoundsim.test_acoustic_propagation.TestDistancesAndDelays.test_tx_distance_on_axis_center_equals_depth) ... ok
+test_tx_propagation_delay (nitk_usoundsim.test_acoustic_propagation.TestDistancesAndDelays.test_tx_propagation_delay) ... ok
+test_deeper_phantom_points_have_larger_min_delay (nitk_usoundsim.test_acoustic_propagation.TestFullPipeline.test_deeper_phantom_points_have_larger_min_delay) ... ok
+test_multiple_scatterer_linear_superposition (nitk_usoundsim.test_acoustic_propagation.TestFullPipeline.test_multiple_scatterer_linear_superposition) ... ok
+test_output_dimensions (nitk_usoundsim.test_acoustic_propagation.TestFullPipeline.test_output_dimensions) ... ok
+test_output_is_real_valued_mechanical_pressure (nitk_usoundsim.test_acoustic_propagation.TestFullPipeline.test_output_is_real_valued_mechanical_pressure) ... ok
+test_round_trip_delay_for_20mm_phantom_point (nitk_usoundsim.test_acoustic_propagation.TestFullPipeline.test_round_trip_delay_for_20mm_phantom_point) ... ok
+test_pulse_centered_near_zero (nitk_usoundsim.test_acoustic_propagation.TestPulse.test_pulse_centered_near_zero) ... ok
+test_pulse_sampled_at_fs (nitk_usoundsim.test_acoustic_propagation.TestPulse.test_pulse_sampled_at_fs) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.018s
+
+OK

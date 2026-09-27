@@ -1,0 +1,151 @@
+
+==============================================================================
+TEAM 7 - B-MODE IMAGE FORMATION  (NITK-UsoundSim)
+==============================================================================
+Stage order: Team 6 Image Reconstruction (Hilbert envelope + log compression)
+          -> Team 7 B-mode Image Formation (THIS STAGE: dynamic range, gray levels, axes, final image)
+          -> Team 8 Post-Image Processing (despeckling)
+Folder : Team_7_B_mode_Image_Formation
+Python : 3.12.4 | numpy 1.26.4 | matplotlib 3.8.3
+
+==============================================================================
+PART 1: INPUT = output of Team 6 (Image Reconstruction), copied into input/
+==============================================================================
+input/reconstructed_carotid_1.npz
+  rf              shape (1218, 128), float32, values -162577 to 166418
+  envelope        shape (1218, 128), float32, values 4.99583 to 170356
+  envelope_norm   shape (1218, 128), float32, values 2.93259e-05 to 1
+  envelope_db     shape (1218, 128), float32, values -90.655 to 0
+  fs              scalar float64  = 31250000.0
+  f0              scalar float64  = 5000000.0
+  c               scalar float64  = 1540.0
+  pitch           scalar float64  = 0.0001953
+  depth_start_mm  scalar float64  = 5.0
+input/reconstructed_carotid_2.npz
+  rf              shape (1218, 128), float32, values -130418 to 139393
+  envelope        shape (1218, 128), float32, values 7.11421 to 143632
+  envelope_norm   shape (1218, 128), float32, values 4.95308e-05 to 1
+  envelope_db     shape (1218, 128), float32, values -86.1025 to 0
+  fs              scalar float64  = 31250000.0
+  f0              scalar float64  = 5000000.0
+  c               scalar float64  = 1540.0
+  pitch           scalar float64  = 0.0001953
+  depth_start_mm  scalar float64  = 5.0
+    [figure saved] output/input_envelope_db_overview.png  (runner figure)
+
+==============================================================================
+PART 2.1: code/B_mode.ipynb, B-mode part, on reconstructed_carotid_1.npz
+==============================================================================
+Loaded into the namespace from the input file: rf, envelope, envelope_norm, envelope_db, fs, f0, c, pitch, depth_start_mm
+Runner sets DATA_FILE = "carotid_1_rf.npy" (only used by cell 9 to name the saved files).
+Not run here (Team 6's work): cell 1 np.load, cell 3 Hilbert, cell 4 scan-line plot,
+cell 5 sections 3-4 (normalise, log compression).
+--- cell 1, import lines only: import numpy as np; import matplotlib.pyplot as plt
+--- B_mode.ipynb code cell 2 (settings; gives dynamic_range)
+--- B_mode.ipynb code cell 5, sections 5-6 (clip to dynamic range, brightness 0..1)
+B-mode shape: (1218, 128)
+Brightness range: 0.0 to 1.0
+--- B_mode.ipynb code cell 6 (depth and width axes)
+Depth: 5.0 mm to 35.0 mm
+Width: -12.5 mm to 12.3 mm
+--- B_mode.ipynb code cell 7 (display all steps)
+    [figure saved] output/carotid_1_01_all_steps.png
+--- B_mode.ipynb code cell 8 (final B-mode image)
+    [figure saved] output/carotid_1_02_final_bmode.png
+--- B_mode.ipynb code cell 9 (save, run inside output/)
+Saved: bmode_carotid_1.npy | bmode_carotid_1.png | bmode_carotid_1_axes.npz
+Image size: (1218, 128) (depth samples x scan lines)
+
+==============================================================================
+PART 2.2: code/B_mode.ipynb, B-mode part, on reconstructed_carotid_2.npz
+==============================================================================
+Loaded into the namespace from the input file: rf, envelope, envelope_norm, envelope_db, fs, f0, c, pitch, depth_start_mm
+Runner sets DATA_FILE = "carotid_2_rf.npy" (only used by cell 9 to name the saved files).
+Not run here (Team 6's work): cell 1 np.load, cell 3 Hilbert, cell 4 scan-line plot,
+cell 5 sections 3-4 (normalise, log compression).
+--- cell 1, import lines only: import numpy as np; import matplotlib.pyplot as plt
+--- B_mode.ipynb code cell 2 (settings; gives dynamic_range)
+--- B_mode.ipynb code cell 5, sections 5-6 (clip to dynamic range, brightness 0..1)
+B-mode shape: (1218, 128)
+Brightness range: 0.0 to 1.0
+--- B_mode.ipynb code cell 6 (depth and width axes)
+Depth: 5.0 mm to 35.0 mm
+Width: -12.5 mm to 12.3 mm
+--- B_mode.ipynb code cell 7 (display all steps)
+    [figure saved] output/carotid_2_01_all_steps.png
+--- B_mode.ipynb code cell 8 (final B-mode image)
+    [figure saved] output/carotid_2_02_final_bmode.png
+--- B_mode.ipynb code cell 9 (save, run inside output/)
+Saved: bmode_carotid_2.npy | bmode_carotid_2.png | bmode_carotid_2_axes.npz
+Image size: (1218, 128) (depth samples x scan lines)
+
+==============================================================================
+PART 3: effect of the dynamic range (runner figure, notebook formula)
+==============================================================================
+For DR = 40, 50, 60 dB:  B = (clip(envelope_db, -DR, 0) + DR) / DR  from the input envelope_db
+  carotid_1, DR 40 dB: mean brightness 0.210, black (clipped) pixels 26.44 %, pixels at full white 1
+  carotid_1, DR 50 dB: mean brightness 0.341, black (clipped) pixels  4.90 %, pixels at full white 1
+  carotid_1, DR 60 dB: mean brightness 0.447, black (clipped) pixels  0.50 %, pixels at full white 1
+  carotid_2, DR 40 dB: mean brightness 0.168, black (clipped) pixels 30.11 %, pixels at full white 1
+  carotid_2, DR 50 dB: mean brightness 0.303, black (clipped) pixels  5.74 %, pixels at full white 1
+  carotid_2, DR 60 dB: mean brightness 0.415, black (clipped) pixels  0.63 %, pixels at full white 1
+    [figure saved] output/dynamic_range_40_50_60dB.png  (runner figure)
+  60 dB image here identical to the notebook's bmode for carotid_1: True
+
+==============================================================================
+PART 4: reproducibility check (this run vs the image the notebook saved earlier)
+==============================================================================
+  this run  output/bmode_carotid_1.npy          : shape (1218, 128), float32, values 0 to 1
+  reference input/reference/bmode_carotid_1.npy : shape (1218, 128), float32, values 0 to 1
+  max |this run - reference|                     = 6.49e-06
+  mean |this run - reference|                    = 1.11e-07
+  8-bit gray levels round(255 * B): 6 of 155904 pixels differ, by at most 1 level (values that sit right on a rounding boundary)
+  depth_mm and width_mm identical to reference   : True
+  RESULT: PASS - same image (difference is float32 rounding, far below one gray level 1/255 = 0.0039)
+    [figure saved] output/reproducibility_check_60dB.png  (runner figure)
+
+==============================================================================
+PART 5: SUMMARY
+==============================================================================
+carotid_1:
+  input envelope_db  (1218, 128), float32, values -90.655 to 0 dB
+  dynamic range      60 dB  -> clipped dB values -60 to 0 dB
+  B-mode brightness  float32, values 0 to 1, mean 0.447
+  8-bit gray levels  0 to 255 (round(255 * B)): mean 114.1
+  axes               depth 5.0 to 35.0 mm, lateral -12.5 to 12.3 mm
+  black pixels       40 dB: 26.44 %, 50 dB: 4.90 %, 60 dB: 0.50 %
+carotid_2:
+  input envelope_db  (1218, 128), float32, values -86.1025 to 0 dB
+  dynamic range      60 dB  -> clipped dB values -60 to 0 dB
+  B-mode brightness  float32, values 0 to 1, mean 0.415
+  8-bit gray levels  0 to 255 (round(255 * B)): mean 105.9
+  axes               depth 5.0 to 35.0 mm, lateral -12.5 to 12.3 mm
+  black pixels       40 dB: 30.11 %, 50 dB: 5.74 %, 60 dB: 0.63 %
+Reproducibility (carotid_1): max |this run - reference| = 6.49e-06  (PASS)
+
+Timings:
+  Part 1 input overview                      0.45 s
+  Part 2.1 notebook stage, carotid_1         0.68 s
+  Part 2.2 notebook stage, carotid_2         0.67 s
+  Part 3 dynamic range comparison            0.50 s
+  Part 4 reproducibility check               0.00 s
+  TOTAL                                      2.68 s
+
+Files written to output/:
+   bmode_carotid_1.npy
+   bmode_carotid_1.png
+   bmode_carotid_1_axes.npz
+   bmode_carotid_2.npy
+   bmode_carotid_2.png
+   bmode_carotid_2_axes.npz
+   carotid_1_01_all_steps.png
+   carotid_1_02_final_bmode.png
+   carotid_2_01_all_steps.png
+   carotid_2_02_final_bmode.png
+   dynamic_range_40_50_60dB.png
+   input_envelope_db_overview.png
+   reproducibility_check_60dB.png
+   console_log.txt
+   console_screenshot_1.png, _2.png, ... (pictures of this console text, 75 lines each)
+
+Done.

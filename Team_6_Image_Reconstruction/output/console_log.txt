@@ -1,0 +1,144 @@
+
+==============================================================================
+TEAM 6: IMAGE RECONSTRUCTION  (NITK-UsoundSim)
+==============================================================================
+Python 3.12.4, numpy 1.26.4, matplotlib 3.8.3
+Stage order: Image Reconstruction (Team 6: Hilbert envelope + log compression)
+          -> B-mode Image Formation (Team 7: dynamic range + grayscale image)
+          -> Post-Image Processing (Team 8: despeckling)
+
+==============================================================================
+PART 1: real in-vivo carotid RF  (code/B_mode.ipynb, steps 1-4)
+==============================================================================
+B_mode.ipynb has 9 code cells. This stage runs cells 1, 2, 3, 4 and the first half of cell 5.
+Code cell 5 split at line 15 (the '=' line above '# 5. APPLY DYNAMIC RANGE'):
+  first half  = lines 1-14  (3. NORMALIZE ENVELOPE, 4. LOG COMPRESSION)  -> run here
+  second half = lines 15-29  (5. APPLY DYNAMIC RANGE, 6. CONVERT dB TO BRIGHTNESS) -> Team 7
+
+==============================================================================
+Part 1, carotid_1: run notebook cells 1-4 and cell 5 (first half)
+==============================================================================
+--- running B_mode.ipynb cell 1 (18 lines) ---
+RF data shape: (1218, 128)
+Depth samples: 1218
+Scan lines   : 128
+Minimum: -162577.23
+Maximum: 166418.19
+--- running B_mode.ipynb cell 2 (11 lines) ---
+--- running B_mode.ipynb cell 3 (12 lines) ---
+Envelope shape: (1218, 128)
+Minimum: 4.995831
+Maximum: 170355.81
+--- running B_mode.ipynb cell 4 (15 lines) ---
+  saved output/carotid_1_01_notebook_rf_and_envelope.png
+--- running B_mode.ipynb cell 5 (first half) (12 lines) ---
+Notebook code finished in 0.6 s
+
+Runner checks on the notebook's variables:
+  rf            : shape (1218, 128), dtype float32, min -162577, max 166418
+  envelope      : shape (1218, 128), dtype float32, min 4.99583, max 170356
+  envelope_norm : shape (1218, 128), dtype float32, min 2.93259e-05, max 1
+  envelope_db   : shape (1218, 128), dtype float32, min -90.655, max 0
+  envelope >= |rf| everywhere (tolerance 1e-3 x max): True
+  envelope max / min = 34100  ->  90.7 dB between the strongest and the weakest echo
+  envelope_db: min -90.65 dB, max 0.00 dB (0 dB = peak), median -33.75 dB
+  pixels below -40 dB: 26.44 %
+  pixels below -50 dB:  4.90 %
+  pixels below -60 dB:  0.50 %
+  (envelope_db is NOT clipped here: choosing the dynamic range and clipping is Team 7's step)
+
+Handoff for Team 7 (B-mode Image Formation): output/reconstructed_carotid_1.npz
+    rf              shape (1218, 128)  dtype float32  min -162577, max 166418
+    envelope        shape (1218, 128)  dtype float32  min 4.99583, max 170356
+    envelope_norm   shape (1218, 128)  dtype float32  min 2.93259e-05, max 1
+    envelope_db     shape (1218, 128)  dtype float32  min -90.655, max 0
+    fs              shape ()           dtype float64  value 3.125e+07
+    f0              shape ()           dtype float64  value 5e+06
+    c               shape ()           dtype float64  value 1540
+    pitch           shape ()           dtype float64  value 0.0001953
+    depth_start_mm  shape ()           dtype float64  value 5
+  saved output/carotid_1_02_runner_rf_envelope_db.png
+  saved output/carotid_1_03_runner_db_full_range_and_histogram.png
+
+==============================================================================
+Part 1, carotid_2: run notebook cells 1-4 and cell 5 (first half)
+==============================================================================
+  (in memory only) replaced the line DATA_FILE = "carotid_1_rf.npy" by DATA_FILE = "carotid_2_rf.npy"
+--- running B_mode.ipynb cell 1 (18 lines) ---
+RF data shape: (1218, 128)
+Depth samples: 1218
+Scan lines   : 128
+Minimum: -130417.8
+Maximum: 139392.75
+--- running B_mode.ipynb cell 2 (11 lines) ---
+--- running B_mode.ipynb cell 3 (12 lines) ---
+Envelope shape: (1218, 128)
+Minimum: 7.1142106
+Maximum: 143632.12
+--- running B_mode.ipynb cell 4 (15 lines) ---
+  saved output/carotid_2_01_notebook_rf_and_envelope.png
+--- running B_mode.ipynb cell 5 (first half) (12 lines) ---
+Notebook code finished in 0.1 s
+
+Runner checks on the notebook's variables:
+  rf            : shape (1218, 128), dtype float32, min -130418, max 139393
+  envelope      : shape (1218, 128), dtype float32, min 7.11421, max 143632
+  envelope_norm : shape (1218, 128), dtype float32, min 4.95308e-05, max 1
+  envelope_db   : shape (1218, 128), dtype float32, min -86.1025, max 0
+  envelope >= |rf| everywhere (tolerance 1e-3 x max): True
+  envelope max / min = 20189  ->  86.1 dB between the strongest and the weakest echo
+  envelope_db: min -86.10 dB, max 0.00 dB (0 dB = peak), median -35.14 dB
+  pixels below -40 dB: 30.11 %
+  pixels below -50 dB:  5.74 %
+  pixels below -60 dB:  0.63 %
+  (envelope_db is NOT clipped here: choosing the dynamic range and clipping is Team 7's step)
+
+Handoff for Team 7 (B-mode Image Formation): output/reconstructed_carotid_2.npz
+    rf              shape (1218, 128)  dtype float32  min -130418, max 139393
+    envelope        shape (1218, 128)  dtype float32  min 7.11421, max 143632
+    envelope_norm   shape (1218, 128)  dtype float32  min 4.95308e-05, max 1
+    envelope_db     shape (1218, 128)  dtype float32  min -86.1025, max 0
+    fs              shape ()           dtype float64  value 3.125e+07
+    f0              shape ()           dtype float64  value 5e+06
+    c               shape ()           dtype float64  value 1540
+    pitch           shape ()           dtype float64  value 0.0001953
+    depth_start_mm  shape ()           dtype float64  value 5
+  saved output/carotid_2_02_runner_rf_envelope_db.png
+  saved output/carotid_2_03_runner_db_full_range_and_histogram.png
+
+==============================================================================
+PART 2: simulated RF  (code/image_reconstruction.ipynb)
+==============================================================================
+Notebook has 3 code cells. Running them in order...
+
+--- running code cell 0 (1 lines) ---
+--- running code cell 1 (350 lines) ---
+  saved output/sim_A1_notebook_rf_envelope_and_scan_conversion.png
+Reconstructed envelope shape: (250, 200)
+Depth range: 0.0 to 61.599999999999994 mm
+Lateral range: -30.799999999999994 to 30.799999999999994 mm
+--- running code cell 2 (0 lines) ---
+
+Notebook code finished in 2.5 s
+
+Runner checks on the notebook's variables:
+  simulated raw RF matrix : 3201 samples x 64 scan lines (fs = 40 MHz, fc = 5 MHz)
+  band-pass filter        : Butterworth order 2, 2-8 MHz, zero-phase (filtfilt)
+  mean of raw RF (DC)     : 0.0800  ->  after DC removal + filter: 7.45e-06
+  target at   15 mm on line 32: envelope peak found at  14.88 mm, peak value 1.008 (reflectivity 1.0)
+  target at   30 mm on line 20: envelope peak found at  29.91 mm, peak value 0.825 (reflectivity 0.8)
+  target at   45 mm on line 45: envelope peak found at  45.05 mm, peak value 0.581 (reflectivity 0.6)
+  reconstructed image     : (250, 200), min 0.000, max 0.992, zero-filled (outside sector) pixels 48.1 %
+  saved output/sim_A2_runner_raw_rf_input.png
+  saved output/sim_A3_runner_envelope_db_and_scan_converted.png
+
+==============================================================================
+SUMMARY
+==============================================================================
+carotid_1: envelope_db (1218, 128) float32, -90.65 to 0.00 dB
+  Handoff for Team 7 (B-mode Image Formation): output/reconstructed_carotid_1.npz
+carotid_2: envelope_db (1218, 128) float32, -86.10 to 0.00 dB
+  Handoff for Team 7 (B-mode Image Formation): output/reconstructed_carotid_2.npz
+Part 2: reconstructed (scan-converted) envelope (250, 200); envelope peaks found for all 3 targets.
+Files written to output/: 13 (including console_log.txt and console_screenshot.png)
+Total run time: 5.6 s

@@ -1,0 +1,113 @@
+
+==============================================================================
+NITK-UsoundSim  |  Team 5: Receive (RX) Beamforming, delay-and-sum
+==============================================================================
+Probe   : Philips L12-4 (FUS4103) reference model
+          128 elements, pitch 0.30 mm, f0 8 MHz, fs 40 MHz, c 1540 m/s
+Lines   : 256 scan lines, x = -10 .. +10 mm
+Receive : apodization 'hann', F-number 1.0
+Python  : 3.12.4   numpy 1.26.4
+Beamformer loaded from: code/receive_beamforming.py
+
+==============================================================================
+STEP 1  Team 5 verification tests (code/verify_beamformer.py)
+==============================================================================
+Test RF is generated fresh by mock_data.py -> support/tissue_phantoms.simulate_rf ...
+
+--- Test 1: Point-target focusing ---
+  expected depth: 30.00 mm, measured peak: 29.99 mm (error 0.008 mm)
+[PASS] peak within 0.096 mm tolerance
+
+--- Test 2: Correct vs incorrect receive delay ---
+  peak amplitude with correct delays:   0.327
+  peak amplitude with no RX focusing:   0.066
+[PASS] correct-delay peak is stronger than unfocused peak
+
+--- Test 3: Lateral localization (two targets) ---
+  strongest peak at x=-3.96 mm, z=24.99 mm
+[PASS] strongest peak lands near one of the two targets
+
+--- Test 4: Depth localization ---
+  target z=15.0 mm -> measured peak z=15.03 mm (error 0.034 mm)
+[PASS]   depth error small at z=15.0 mm
+  target z=40.0 mm -> measured peak z=40.04 mm (error 0.040 mm)
+[PASS]   depth error small at z=40.0 mm
+  target z=55.0 mm -> measured peak z=55.04 mm (error 0.036 mm)
+[PASS]   depth error small at z=55.0 mm
+
+Summary: 4/4 tests passed (6 PASS checks, 0 FAIL checks)   [33.3 s]
+
+==============================================================================
+STEP 2  Load the sample inputs (input/*.npz)
+==============================================================================
+point_targets_rf.npz  : 3 point targets at (-5,10), (0,20), (+5,30) mm
+                        rf (128, 3574) (elements x time samples), |rf| max 1.71
+                        t_axis -0.750 .. 88.575 us, step 25.0 ns (= 1/fs)
+cyst_rf.npz           : speckle tissue with an anechoic cyst, centre (0,30) mm, radius 6 mm
+                        rf (128, 3574) (elements x time samples), |rf| max 57.4
+                        t_axis -0.750 .. 88.575 us, step 25.0 ns (= 1/fs)
+
+  saved output/01_input_point_targets_raw_rf.png
+  saved output/02_input_cyst_raw_rf.png
+
+==============================================================================
+STEP 3  The delay idea for the target at (0, 20) mm
+==============================================================================
+tau_TX at (0,20) mm = 12.987 us (nearest element fires first, broadcast)
+tau_TX + tau_RX: centre element 25.975 us, edge element 1 30.923 us
+  -> the echo reaches the edge element 4.95 us later than the centre
+peak |RF| on line x=0 near 20 mm: with RX delays 0.656, without per-element delays 0.175
+  saved output/03_delay_alignment_0_20mm.png
+
+==============================================================================
+STEP 4  Beamform both inputs with das_beamform() (hann, F# = 1, 256 lines)
+==============================================================================
+point_targets : output (3118, 256) (depths x lines), z 0..60 mm step 0.0192 mm, 2.3 s
+                saved output/beamformed_point_targets.npz (Team 5's output for the next stage)
+cyst          : output (3118, 256) (depths x lines), z 0..60 mm step 0.0192 mm, 2.2 s
+                saved output/beamformed_cyst.npz (Team 5's output for the next stage)
+  saved output/04_beamformed_rf_point_targets.png
+  saved output/05_display_point_targets.png
+  saved output/06_beamformed_rf_cyst.png
+  saved output/07_display_cyst.png
+
+==============================================================================
+STEP 5  Measurements on the beamformed point-target image
+==============================================================================
+(peaks are taken from the envelope of the beamformed RF;
+ grid step dz = 0.0192 mm, dx = 0.0784 mm)
+  true (x, z) [mm] |  measured (x, z) [mm] |  error x, z [mm] | peak level
+          (-5, 10) |      (-4.980, 10.010) |   +0.020, +0.010 |    0.0 dB
+          (+0, 20) |      (-0.039, 20.001) |   -0.039, +0.001 |   -5.4 dB
+          (+5, 30) |      (+4.980, 29.992) |   -0.020, -0.008 |  -11.5 dB
+
+-6 dB resolution at the (0, 20) mm target (peak at x=-0.039, z=20.001 mm):
+  axial   width (along depth) : 0.342 mm
+  lateral width (across lines): 0.456 mm
+  (wavelength = 0.1925 mm; lateral line spacing 0.0784 mm)
+  saved output/08_resolution_profiles_0_20mm.png
+
+Cyst image: mean envelope inside r < 4 mm of (0,30) mm = -25.2 dB
+  relative to the surrounding tissue ring (r = 7.5-10.5 mm)
+
+==============================================================================
+STEP 6  Apodization / aperture comparison at the (0, 20) mm target
+==============================================================================
+lateral width: -6 dB width across lines at the peak depth
+highest side lobe: max over depth 19-21 mm of the envelope, outside the main lobe, |x| <= 5 mm
+streak: brightest point right of the (-5,10) mm target (x > 1 mm, z 9.5-16 mm),
+        in dB relative to the image maximum
+   window         aperture | lateral -6 dB | highest side lobe |   streak
+     rect F# = 1 (dynamic) |      0.300 mm |          -18.1 dB | -18.8 dB
+  hamming F# = 1 (dynamic) |      0.430 mm |          -33.3 dB | -24.7 dB
+     hann F# = 1 (dynamic) |      0.456 mm |          -32.6 dB | -25.0 dB
+     hann F# = 2 (dynamic) |      0.816 mm |          -29.8 dB | -26.2 dB
+     hann      full, fixed |      0.315 mm |          -35.5 dB | -17.7 dB
+  saved output/09_apodization_comparison.png
+
+==============================================================================
+DONE
+==============================================================================
+Verification tests: 4/4 passed
+Total run time: 50.8 s
+All outputs are in: output/  (9 plots + console_screenshot.png, 2 beamformed .npz, console_log.txt)

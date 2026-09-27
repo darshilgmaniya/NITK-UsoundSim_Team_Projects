@@ -1,0 +1,115 @@
+
+========================================================================
+TEAM 2 - TRANSMIT (TX) BEAMFORMING  |  NITK-UsoundSim
+========================================================================
+Python      : 3.12.4  (/usr/local/bin/python3)
+Team folder : /Users/darshil/Downloads/NITK-UsoundSim_Team_Projects/Team_2_TX_Beamforming
+
+========================================================================
+STEP 0  Prepare a working copy of the team's code
+========================================================================
+  input/transducer_interface.json  ->  config/transducer_interface.json
+  input/beamforming.json  ->  config/beamforming.json
+  Probe input      : probe_name=Philips L12-4 reference model, n_elements=128, pitch_m=0.0003, frequency_min_hz=4000000.0, frequency_max_hz=12000000.0, center_frequency_hz=8000000.0, element_width_m=None, element_height_m=None, material=PZT-5H
+  Beamformer input : focus_x_m=0.0, focus_z_m=0.04, steering_angle_deg=0.0, sound_speed_m_s=1540.0, apodization=hann, pulse_cycles=2.0, pulse_duration_sigma_cycles=1.0
+
+========================================================================
+STEP 1  Team script: python run_transmit_beamforming.py
+========================================================================
+  | TX beamforming completed
+  | Elements: 128
+  | Frequency MHz: 8.0
+  | Delay range us: 0.0 2.7950482224488855
+  | Handoff: /private/tmp/team2_work_gty3g4uk/Usound/outputs/tx_beamforming_package.npz
+  (run_transmit_beamforming.py finished in 0.12 s)
+  (the 'Handoff' path above is the temporary working copy; the files are copied to output/)
+
+========================================================================
+STEP 2  Team script: python visualize_transmit_beamforming.py
+========================================================================
+  (plt.show() is replaced by 'save to PNG', so no windows open)
+  | 
+  | --- TRANSMIT BEAMFORMING SUMMARY ---
+  | Number of elements : 128
+  | Frequency          : 8.00 MHz
+  | Focus X            : 0.00 mm
+  | Focus Z            : 40.00 mm
+  | Sound speed        : 1540 m/s
+  | Steering angle     : 0.0 degrees
+  | Minimum delay      : 0.0000 us
+  | Maximum delay      : 2.7950 us
+  | 
+  | Transmit beamforming visualization completed.
+  (visualize_transmit_beamforming.py finished in 0.60 s)
+
+========================================================================
+STEP 3  Team tests: tests/test_beamformer.py (each test_* called directly)
+========================================================================
+  | PASS  test_delay
+  | PASS  test_shapes
+  | RESULT 2/2 tests passed
+
+========================================================================
+STEP 4  Summary read from the team's output files
+========================================================================
+  Probe                             : Philips L12-4 reference model
+  Number of elements                : 128
+  Pitch                             : 0.300 mm
+  Element x range                   : -19.05 mm ... 19.05 mm
+  Aperture (first to last centre)   : 38.10 mm
+  Centre frequency f0               : 8.00 MHz
+  Sound speed c                     : 1540 m/s
+  Wavelength c/f0                   : 0.1925 mm  (pitch = 1.56 wavelengths)
+  Focus (x, z)                      : (0.0 mm, 40.0 mm)
+  Steering angle                    : 0.0 deg
+  F-number (focus depth / aperture) : 1.05
+  Delay min / max                   : 0.0000 us / 2.7950 us
+  Elements that fire first          : 1, 128
+  Elements that fire last           : 61, 62, 63, 64, 65, 66, 67, 68
+  Apodization                       : hann  (weights min 0.0000, max 1.0000, element 1 = 0.0000, element 64 = 1.0000)
+  Pulse file                        : pulses (128, 688), time samples 688, fs = 160 MHz, t = -0.750 ... 3.544 us
+  Hand-off package keys (tx_beamforming_package.npz):
+      element_x_m          shape (128,)   dtype float64
+      tx_delays_s          shape (128,)   dtype float64
+      tx_weights           shape (128,)   dtype float64
+      tx_frequency_hz      shape ()       dtype float64
+      sound_speed_m_s      shape ()       dtype float64
+      focus_x_m            shape ()       dtype float64
+      focus_z_m            shape ()       dtype float64
+      steering_angle_deg   shape ()       dtype float64
+  load_tx_package() check (the next team's loader): OK - all required fields, shape (128,)
+
+========================================================================
+STEP 5  Extra figures (made by this runner with the team's functions)
+========================================================================
+  Window rect    : -6 dB main-lobe width 0.340 deg, highest side lobe -13.3 dB
+  Window hann    : -6 dB main-lobe width 0.570 deg, highest side lobe -31.5 dB
+  Window hamming : -6 dB main-lobe width 0.520 deg, highest side lobe -42.6 dB
+  Pulse spectrum: peak at 9.57 MHz, -6 dB band 3.11 ... 18.05 MHz
+  Grating-lobe angle for this pitch at f0: asin(wavelength/pitch) = 39.9 deg
+  saved extra_1_delays_and_weights.png
+  saved extra_2_apodization_windows.png
+  saved extra_3_pulse.png
+  saved extra_4_tx_field_map.png
+  Field map: 55064 grid points in 12.1 s (grid step x 0.1 mm, z 0.5 mm)
+  Field map: strongest point on the centre line at z = 40.0 mm (focus set to 40.0 mm)
+  Field map: -6 dB beam width at focus depth = 0.36 mm
+  Field map: energy at the focus is 16.8 dB higher than with no delays
+
+========================================================================
+DONE
+========================================================================
+  Tests: ALL PASSED
+  Output folder: /Users/darshil/Downloads/NITK-UsoundSim_Team_Projects/Team_2_TX_Beamforming/output
+      extra_1_delays_and_weights.png
+      extra_2_apodization_windows.png
+      extra_3_pulse.png
+      extra_4_tx_field_map.png
+      team_fig1_delay_vs_element.png
+      team_fig2_position_vs_delay.png
+      tx_beamforming_package.npz
+      tx_beamforming_summary.json
+      tx_element_pulses.npz
+      console_log.txt
+      console_screenshot.png
+  Total run time: 13.8 s

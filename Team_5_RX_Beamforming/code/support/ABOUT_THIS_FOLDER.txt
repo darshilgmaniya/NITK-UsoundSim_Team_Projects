@@ -1,0 +1,20 @@
+code/support/  -  INPUT GENERATOR COPIED FROM OTHER TEAMS (NOT TEAM 5's WORK)
+===========================================================================
+
+These files are unchanged copies from other parts of the NITK-UsoundSim project.
+They are here only so that Team 5's test file (verify_beamformer.py, through
+mock_data.py) can make fresh test RF data when this folder is copied anywhere.
+
+  nitk_usoundsim/__init__.py
+  nitk_usoundsim/config.py
+  nitk_usoundsim/acoustic_propagation.py   Team 3 (Acoustic Propagation):
+                                           pulse, travel to a scatterer and back
+  tissue_interaction.py                    Team 4 (Tissue Interaction):
+                                           reflection at a scatterer
+  phantom.py                               Team 4: scatterer / lesion phantoms
+  tissue_phantoms.py                       project integration module (simulate_rf):
+                                           joins Team 3 + Team 4 to make RF for
+                                           all 128 elements
+
+Team 5's own part is in the folder above (code/receive_beamforming.py,
+code/verify_beamformer.py, code/mock_data.py).
