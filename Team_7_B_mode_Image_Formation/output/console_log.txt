@@ -80,6 +80,31 @@ Saved: bmode_carotid_2.npy | bmode_carotid_2.png | bmode_carotid_2_axes.npz
 Image size: (1218, 128) (depth samples x scan lines)
 
 ==============================================================================
+PART 2.3: code/B_mode.ipynb code cells 10-12 on the simulated phantoms
+==============================================================================
+Input: input/reconstructed_cyst_lesion.npz, input/reconstructed_point_targets.npz
+(made by our simulator, Teams 1-5, plus Team 6's envelope and log compression;
+ see input/simulated/make_simulated_inputs.py)
+--- cell 1, import lines only: import numpy as np; import matplotlib.pyplot as plt
+--- B_mode.ipynb code cell 2 (settings; gives dynamic_range)
+--- B_mode.ipynb code cell 10 (simulated: dynamic range, brightness)
+cyst_lesion
+  B-mode shape: (2078, 256) (depth samples x scan lines)
+  Brightness range: 0.0 to 1.0
+  Depth: 0.0 mm to 40.0 mm
+  Width: -10.0 mm to 10.0 mm
+point_targets
+  B-mode shape: (2078, 256) (depth samples x scan lines)
+  Brightness range: 0.0 to 1.0
+  Depth: 0.0 mm to 40.0 mm
+  Width: -10.0 mm to 10.0 mm
+--- B_mode.ipynb code cell 11 (display the simulated images)
+    [figure saved] output/simulated_01_cyst_lesion_and_point_targets.png
+--- B_mode.ipynb code cell 12 (save, run inside output/)
+Saved: bmode_cyst_lesion.npy | bmode_cyst_lesion.png | bmode_cyst_lesion_axes.npz
+Saved: bmode_point_targets.npy | bmode_point_targets.png | bmode_point_targets_axes.npz
+
+==============================================================================
 PART 3: effect of the dynamic range (runner figure, notebook formula)
 ==============================================================================
 For DR = 40, 50, 60 dB:  B = (clip(envelope_db, -DR, 0) + DR) / DR  from the input envelope_db
@@ -121,15 +146,18 @@ carotid_2:
   8-bit gray levels  0 to 255 (round(255 * B)): mean 105.9
   axes               depth 5.0 to 35.0 mm, lateral -12.5 to 12.3 mm
   black pixels       40 dB: 30.11 %, 50 dB: 5.74 %, 60 dB: 0.63 %
+cyst_lesion: B-mode (2078, 256), brightness 0 to 1, mean 0.599, depth 0.0 to 40.0 mm, lateral -10.0 to 10.0 mm
+point_targets: B-mode (2078, 256), brightness 0 to 1, mean 0.022, depth 0.0 to 40.0 mm, lateral -10.0 to 10.0 mm
 Reproducibility (carotid_1): max |this run - reference| = 6.49e-06  (PASS)
 
 Timings:
-  Part 1 input overview                      0.52 s
-  Part 2.1 notebook stage, carotid_1         0.69 s
-  Part 2.2 notebook stage, carotid_2         0.65 s
-  Part 3 dynamic range comparison            0.47 s
+  Part 1 input overview                      0.38 s
+  Part 2.1 notebook stage, carotid_1         0.75 s
+  Part 2.2 notebook stage, carotid_2         0.70 s
+  Part 2.3 notebook, simulated phantoms      0.56 s
+  Part 3 dynamic range comparison            0.49 s
   Part 4 reproducibility check               0.00 s
-  TOTAL                                      2.60 s
+  TOTAL                                      3.17 s
 
 Files written to output/:
    bmode_carotid_1.npy
@@ -138,6 +166,12 @@ Files written to output/:
    bmode_carotid_2.npy
    bmode_carotid_2.png
    bmode_carotid_2_axes.npz
+   bmode_cyst_lesion.npy
+   bmode_cyst_lesion.png
+   bmode_cyst_lesion_axes.npz
+   bmode_point_targets.npy
+   bmode_point_targets.png
+   bmode_point_targets_axes.npz
    carotid_1_01_all_steps.png
    carotid_1_02_final_bmode.png
    carotid_2_01_all_steps.png
@@ -145,6 +179,7 @@ Files written to output/:
    dynamic_range_40_50_60dB.png
    input_envelope_db_overview.png
    reproducibility_check_60dB.png
+   simulated_01_cyst_lesion_and_point_targets.png
    console_log.txt
    console_screenshot_1.png, _2.png, ... (pictures of this console text, 75 lines each)
 

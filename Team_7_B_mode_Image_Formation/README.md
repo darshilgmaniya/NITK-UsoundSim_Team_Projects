@@ -4,7 +4,8 @@ This stage turns the **log-compressed echo data from Team 6** into the final
 **grayscale B-mode image**. It applies the **dynamic range** (clipping of the dB values),
 maps the dB values to **grayscale brightness 0 to 1** (0 to 255 grey levels in the PNG),
 computes the **depth and width axes** in mm, displays the image and saves it for the next stage.
-It is shown on **real in-vivo carotid artery data** (two frames).
+It is shown on **real in-vivo carotid artery data** (two frames) and on two **simulated
+phantoms** from the NITK-UsoundSim simulator (a cyst lesion and point targets).
 
 Stage order in the simulator:
 
@@ -23,9 +24,11 @@ The full explanation (theory, code walk-through, all results) is in
 | Path | What it is |
 |---|---|
 | `run_team7.py` | One script that runs this stage and saves every result in `output/` (written for this demo) |
-| `code/B_mode.ipynb` | Team notebook, real carotid data (original, unchanged). The runner executes only its B-mode part (see below) |
+| `code/B_mode.ipynb` | Team notebook, real carotid data. Code cells 1-9 are the team's original cells, unchanged; code cells 10-12 were added for the simulated phantoms. The runner executes only its B-mode part (see below) |
 | `code/carotid_1_rf.npy` | Raw carotid RF (copy of Team 6's input), only for opening `B_mode.ipynb` on its own; not used by `run_team7.py` |
 | `input/reconstructed_carotid_1.npz`, `input/reconstructed_carotid_2.npz` | The output of Team 6 (Image Reconstruction), copied here as input |
+| `input/reconstructed_cyst_lesion.npz`, `input/reconstructed_point_targets.npz` | Simulated phantoms: the full simulator (Teams 1-5) plus Team 6's steps, same keys as Team 6's handoff plus `depth_mm` and `width_mm` |
+| `input/simulated/make_simulated_inputs.py` | Script that made the two simulated `.npz` files. It needs the main NITK-UsoundSim project and took about 13 minutes; **not needed for the demo** |
 | `input/reference/bmode_carotid_1.npy`, `..._axes.npz` | The B-mode image the team's notebook saved earlier (for the reproducibility check) |
 | `output/` | Everything produced by `run_team7.py` |
 | `requirements.txt` | Python packages needed |
@@ -45,6 +48,20 @@ Each `reconstructed_carotid_N.npz` (made with `np.savez`) contains:
 
 For carotid_2, `envelope_db` runs from -86.1025 to 0 dB.
 
+### The simulated input files
+
+`reconstructed_cyst_lesion.npz` and `reconstructed_point_targets.npz` were made by
+`input/simulated/make_simulated_inputs.py`: the full NITK-UsoundSim simulator (Teams 1-5: phantom,
+propagation, tissue interaction, receive delay-and-sum) and then Team 6's steps (Hilbert envelope,
+normalise, 20 log10). They have the same keys as above plus `depth_mm` and `width_mm`:
+
+| | cyst_lesion | point_targets |
+|---|---|---|
+| Phantom | speckle tissue with a 6 mm radius anechoic cyst (lesion) at 30 mm depth | 3 point reflectors at 10 / 20 / 30 mm depth, x = -5 / 0 / +5 mm |
+| `envelope_db` | (2078, 256) float32, -95.17 to 0 dB | (2078, 256) float32, -207.15 to 0 dB |
+| Axes | depth 0 to 40.0 mm (2078 samples), width -10 to +10 mm (256 scan lines) | same |
+| `fs`, `f0`, `c`, `pitch`, `depth_start_mm` | 40 MHz, 8 MHz, 1540 m/s, 0.0784 mm, 0.0 mm | same |
+
 ## Which notebook code this stage runs
 
 `code/B_mode.ipynb` contains the whole chain in one notebook. The runner splits it at the
@@ -58,6 +75,8 @@ line `# 5. APPLY DYNAMIC RANGE` and runs only this stage's part, unchanged:
 | Cell 5, sections 3-4 (normalise, log compression) | Team 6 | no, `envelope_db` comes from the input file |
 | Cell 5, sections 5-6 (clip to dynamic range, brightness 0..1) | **Team 7** | yes |
 | Cells 6, 7, 8, 9 (axes, all-steps display, final image, save) | **Team 7** | yes (cell 9 runs inside `output/`) |
+
+| Cells 10, 11, 12 (added: simulated phantoms: dynamic range + brightness, display, save) | **Team 7** | yes, on the two simulated files (cells 10 and 12 run inside `output/`, so `../input/` points to `input/`) |
 
 The runner also sets `DATA_FILE = "carotid_N_rf.npy"`, because cell 9 builds the output
 file names from it. Every `plt.show()` is replaced by "save the figure to `output/`".
@@ -87,7 +106,8 @@ To open `B_mode.ipynb` on its own, see "Running the individual code files" below
 ## What you will see
 
 The console prints five parts: (1) the input files, (2) this stage's notebook code for
-carotid_1 and carotid_2, (3) the dynamic-range comparison, (4) the reproducibility check,
+carotid_1 and carotid_2 (Parts 2.1, 2.2) and notebook code cells 10-12 on the simulated
+cyst lesion and point targets (Part 2.3), (3) the dynamic-range comparison, (4) the reproducibility check,
 (5) a summary with timings.
 
 Measured in this run:
@@ -106,6 +126,13 @@ difference **6.49e-06** (mean 1.11e-07); the depth and width axes are identical.
 rounding only, far below one grey level (1/255 = 0.0039); after rounding to 8-bit grey levels
 6 of 155904 pixels differ by one level.
 
+Simulated phantoms (60 dB): cyst_lesion brightness mean 0.599, point_targets mean 0.022; both
+(2078, 256), depth 0.0 to 40.0 mm, lateral -10.0 to 10.0 mm. In the cyst image the lesion is the
+dark circle (about 24-36 mm deep, x -6 to +6 mm); in the point-target image the three targets are
+the bright dots. The faint streaks and blobs near the points come from the simulator itself (they
+are also in the main project's `results/point_targets.png`); they look stronger here because
+60 dB dynamic range is used instead of 50 dB.
+
 Files in `output/`:
 
 | File | Meaning |
@@ -116,6 +143,8 @@ Files in `output/`:
 | `carotid_2_01/02_*.png` | The same two figures for carotid_2 |
 | `bmode_carotid_1.npy / .png / _axes.npz` | Notebook cell 9: brightness 0..1 (float32), gray PNG, depth and width axes in mm; goes to Team 8 |
 | `bmode_carotid_2.npy / .png / _axes.npz` | The same for carotid_2 |
+| `simulated_01_cyst_lesion_and_point_targets.png` | Notebook cell 11: simulated cyst lesion and point targets side by side (60 dB) |
+| `bmode_cyst_lesion.npy / .png / _axes.npz`, `bmode_point_targets.npy / .png / _axes.npz` | Notebook cell 12: the same three files for the two simulated phantoms |
 | `dynamic_range_40_50_60dB.png` | Runner figure: both frames at 40, 50 and 60 dB (notebook formula) |
 | `reproducibility_check_60dB.png` | Runner figure: saved reference image, this run's image, and their difference |
 | `console_log.txt`, `console_screenshot_1..3.png` | Console text of the run and pictures of it |
@@ -128,14 +157,17 @@ Files in `output/`:
 `jupyter notebook`), with VS Code (Jupyter extension) or in Google Colab. Run all cells. The notebook starts from the
 raw carotid RF, so `code/carotid_1_rf.npy` is placed next to it; it runs Team 6's steps (envelope, log compression)
 and then this team's steps (dynamic range, grayscale image), and saves `bmode_carotid_1.*` next to the notebook.
-In Colab also upload `carotid_1_rf.npy` next to the notebook. `run_team7.py` does not use this RF file; it starts from
+Its last cells (code cells 10-12) also show and save the simulated cyst lesion and point targets; they read
+`../input/reconstructed_cyst_lesion.npz` and `../input/reconstructed_point_targets.npz`, so keep the `input/`
+folder next to `code/`. In Colab also upload `carotid_1_rf.npy` and the two simulated `.npz` files next to the
+notebook, and change the two paths in `SIM_FILES` (code cell 10) to just the file names. `run_team7.py` does not use this RF file; it starts from
 Team 6's `.npz` handoff in `input/`.
 
 In VS Code, open this team folder or the whole `NITK-UsoundSim_Team_Projects` folder, pick a Python interpreter that has the packages from `requirements.txt` (bottom-right corner of VS Code), then open a file and press the Run button.
 
 ## Expected runtime
 
-About 3 seconds (measured 2.8 s inside the script on a Mac laptop; a first run can take
+About 3 seconds (measured 3.13 s inside the script on a Mac laptop; a first run can take
 a few seconds longer while Python loads its libraries).
 
 ## Troubleshooting

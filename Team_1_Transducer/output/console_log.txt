@@ -89,4 +89,4 @@ saved output/fig2_l12_4_random_frequencies.png
 saved output/console_log.txt
 saved output/console_screenshot.png
 
-Done in 0.4 s. All outputs are in the output/ folder.
+Done in 0.3 s. All outputs are in the output/ folder.

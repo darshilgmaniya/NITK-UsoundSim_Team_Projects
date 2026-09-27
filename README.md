@@ -34,7 +34,7 @@ Image Reconstruction -> B-mode Image Formation -> Post-Image Processing
 | `Team_4_Tissue_Interaction` | Tissue interaction | `python3 run_team4.py` | `Team_4_Tissue_Interaction_Explanation.pdf` |
 | `Team_5_RX_Beamforming` | Receive beamforming (delay-and-sum) | `python3 run_team5.py` | `Team_5_RX_Beamforming_Explanation.pdf` |
 | `Team_6_Image_Reconstruction` | Hilbert envelope, normalisation, log compression | `python3 run_team6.py` | `Team_6_Image_Reconstruction_Explanation.pdf` |
-| `Team_7_B_mode_Image_Formation` | Dynamic range, grayscale B-mode image | `python3 run_team7.py` | `Team_7_B_mode_Image_Formation_Explanation.pdf` |
+| `Team_7_B_mode_Image_Formation` | Dynamic range, grayscale B-mode image (carotid + simulated cyst lesion and point targets) | `python3 run_team7.py` | `Team_7_B_mode_Image_Formation_Explanation.pdf` |
 | `Team_8_Post_Image_Processing` | Despeckling and image-quality metrics | `python3 run_team8.py` | `Team_8_Post_Image_Processing_Explanation.pdf` |
 
 ## How to run one team

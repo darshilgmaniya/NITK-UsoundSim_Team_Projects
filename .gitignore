@@ -6,3 +6,5 @@ Team_*/code/bmode_carotid_1.npy
 Team_*/code/bmode_carotid_1.png
 Team_*/code/bmode_carotid_1_axes.npz
 .pytest_cache/
+Team_*/code/bmode_cyst_lesion*
+Team_*/code/bmode_point_targets*

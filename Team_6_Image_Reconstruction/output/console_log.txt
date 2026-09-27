@@ -32,7 +32,7 @@ Maximum: 170355.81
 --- running B_mode.ipynb cell 4 (15 lines) ---
   saved output/carotid_1_01_notebook_rf_and_envelope.png
 --- running B_mode.ipynb cell 5 (first half) (12 lines) ---
-Notebook code finished in 0.8 s
+Notebook code finished in 1.1 s
 
 Runner checks on the notebook's variables:
   rf            : shape (1218, 128), dtype float32, min -162577, max 166418
@@ -141,4 +141,4 @@ carotid_2: envelope_db (1218, 128) float32, -86.10 to 0.00 dB
   Handoff for Team 7 (B-mode Image Formation): output/reconstructed_carotid_2.npz
 Part 2: reconstructed (scan-converted) envelope (250, 200); envelope peaks found for all 3 targets.
 Files written to output/: 13 (including console_log.txt and console_screenshot.png)
-Total run time: 5.5 s
+Total run time: 5.8 s

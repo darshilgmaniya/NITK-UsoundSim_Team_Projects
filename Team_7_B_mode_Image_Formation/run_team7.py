@@ -15,6 +15,9 @@ Place in the simulator
 Input
   input/reconstructed_carotid_1.npz, input/reconstructed_carotid_2.npz
   = the output of Team 6 (Image Reconstruction), copied here as input.
+  input/reconstructed_cyst_lesion.npz, input/reconstructed_point_targets.npz
+  = simulated phantoms from our simulator (Teams 1-5) + Team 6's steps, same keys
+    plus depth_mm and width_mm (made by input/simulated/make_simulated_inputs.py).
   Keys: rf, envelope, envelope_norm, envelope_db (dB, 0 dB = peak, not yet clipped),
         fs, f0, c, pitch, depth_start_mm.
 
@@ -26,13 +29,16 @@ What it does
           Code cells 1, 3, 4 and the first half of cell 5 (sections 1 to 4: load RF,
           Hilbert envelope, normalise, log compression) are Team 6's work; their
           results come from the input file instead.
+          Then code cells 10, 11, 12 (added to the notebook for the simulated
+          phantoms): the same dynamic range and brightness steps on the cyst lesion
+          and the point targets, display and saving.
   Part 3  Dynamic-range comparison (40 / 50 / 60 dB) made from the input envelope_db.
   Part 4  Reproducibility check: this run's output/bmode_carotid_1.npy against the image
           the notebook saved earlier (input/reference/bmode_carotid_1.npy).
   Part 5  Summary, timings, console log and console pictures.
 
-code/B_mode.ipynb is the team's original notebook and is NOT changed.
-This runner only reads it.
+code/B_mode.ipynb is the team's notebook: code cells 1-9 are the team's original cells,
+unchanged; code cells 10-12 were added for the simulated phantoms. This runner only reads it.
 """
 
 import io
@@ -234,6 +240,23 @@ for n in (1, 2):
     timings[f"Part 2.{n} notebook stage, carotid_{n}"] = time.perf_counter() - t
 
 # ----------------------------------------------------------------------
+# PART 2.3: the notebook's simulated-phantom cells (cyst lesion, point targets)
+# ----------------------------------------------------------------------
+banner("PART 2.3: code/B_mode.ipynb code cells 10-12 on the simulated phantoms")
+print("Input: input/reconstructed_cyst_lesion.npz, input/reconstructed_point_targets.npz")
+print("(made by our simulator, Teams 1-5, plus Team 6's envelope and log compression;")
+print(" see input/simulated/make_simulated_inputs.py)")
+t = time.perf_counter()
+_fig_state.update(prefix="simulated", names=["cyst_lesion_and_point_targets"], count=0)
+ns_sim = {"__name__": "__main__"}
+run_source(IMPORTS, "cell 1, import lines only: " + IMPORTS.replace("\n", "; "), ns_sim)
+run_source(cells[1], "B_mode.ipynb code cell 2 (settings; gives dynamic_range)", ns_sim)
+run_source(cells[9], "B_mode.ipynb code cell 10 (simulated: dynamic range, brightness)", ns_sim, workdir=OUTPUT)
+run_source(cells[10], "B_mode.ipynb code cell 11 (display the simulated images)", ns_sim)
+run_source(cells[11], "B_mode.ipynb code cell 12 (save, run inside output/)", ns_sim, workdir=OUTPUT)
+timings["Part 2.3 notebook, simulated phantoms"] = time.perf_counter() - t
+
+# ----------------------------------------------------------------------
 # PART 3: dynamic range comparison (runner figure, the notebook's formula)
 # ----------------------------------------------------------------------
 banner("PART 3: effect of the dynamic range (runner figure, notebook formula)")
@@ -310,7 +333,7 @@ saved_figures.append("reproducibility_check_60dB.png")
 print("    [figure saved] output/reproducibility_check_60dB.png  (runner figure)")
 
 # ----------------------------------------------------------------------
-# PART 6: summary
+# PART 5: summary
 # ----------------------------------------------------------------------
 banner("PART 5: SUMMARY")
 for n in (1, 2):
@@ -324,6 +347,9 @@ for n in (1, 2):
     print(f"  axes               depth {ns['depth_mm'][0]:.1f} to {ns['depth_mm'][-1]:.1f} mm, "
           f"lateral {ns['width_mm'][0]:.1f} to {ns['width_mm'][-1]:.1f} mm")
     print("  black pixels       " + ", ".join(f"{dr} dB: {black[(n, dr)]:.2f} %" for dr in (40, 50, 60)))
+for sim_name, s in ns_sim["sim"].items():
+    print(f"{sim_name}: B-mode {s['bmode'].shape}, brightness {rng(s['bmode'])}, mean {s['bmode'].mean():.3f}, "
+          f"depth {s['depth_mm'][0]:.1f} to {s['depth_mm'][-1]:.1f} mm, lateral {s['width_mm'][0]:.1f} to {s['width_mm'][-1]:.1f} mm")
 print(f"Reproducibility (carotid_1): max |this run - reference| = {d_nb:.3g}  ({'PASS' if ok else 'FAIL'})")
 print("\nTimings:")
 for k, v in timings.items():
